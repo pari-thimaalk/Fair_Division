@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AddPeopleActivity"
+    tools:context=".AddGoodsActivity"
     >
 
     <LinearLayout
@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Manage Agents"
+            android:text="Manage Goods"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/helvetica_bold"
             android:textSize="44sp"
@@ -24,14 +24,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/agentsList"
+            android:id="@+id/goodsList"
             android:clickable="true"
             android:focusable="true"
             android:layout_margin="8sp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/nextBtn"
+            android:id="@+id/goodsNextBtn"
             android:layout_gravity="center_horizontal"
             android:layout_margin="15sp"
             android:backgroundTint="@color/black"
@@ -42,8 +42,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/noAgentsText"
-        android:text="No Agents Found"
+        android:id="@+id/noGoodsText"
+        android:text="No Goods Found"
         android:fontFamily="@font/helvetica_light"
         android:textSize="20sp"
         android:textColor="@color/black"
@@ -51,7 +51,7 @@
         android:layout_gravity="center"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/goodsFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="Add New Agent"

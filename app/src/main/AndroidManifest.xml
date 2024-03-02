@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Fair_Division"
         tools:targetApi="31">
         <activity
+            android:name=".CreditsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddGoodsActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddPeopleActivity"
             android:exported="false" />
         <activity

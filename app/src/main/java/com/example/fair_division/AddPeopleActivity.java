@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +19,11 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AddPeopleActivity extends AppCompatActivity {
     FloatingActionButton fab;
+    Button nextBtn;
     RecyclerView pplList;
     EditText agentInput;
     TextView noAgents;
@@ -32,6 +36,7 @@ public class AddPeopleActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         noAgents = findViewById(R.id.noAgentsText);
         pplList = findViewById(R.id.agentsList);
+        nextBtn = findViewById(R.id.nextBtn);
 
 
         noAgents.setVisibility(View.VISIBLE);
@@ -49,10 +54,18 @@ public class AddPeopleActivity extends AppCompatActivity {
                     pplList.setAdapter(new PplAdapter(agents));
                     pplList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     noAgents.setVisibility(View.GONE);
+                    nextBtn.setVisibility(View.VISIBLE);
+
 
                 }
             }).setNegativeButton("Cancel", ((dialogInterface, i) -> {
             })).create().show();
+        });
+
+        nextBtn.setOnClickListener(view -> {
+            Intent i = new Intent(getApplicationContext(), AddGoodsActivity.class);
+            i.putStringArrayListExtra("ppl", agents);
+            startActivity(i);
         });
     }
 }
