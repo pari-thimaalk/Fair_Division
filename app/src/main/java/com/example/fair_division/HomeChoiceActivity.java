@@ -30,6 +30,7 @@ public class HomeChoiceActivity extends AppCompatActivity {
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.layout_frame, new ChoresFragment()).commit();
         }
+        nav.setSelectedItemId(R.id.home_lp);
     }
 
     private BottomNavigationView.OnItemSelectedListener navlistener =

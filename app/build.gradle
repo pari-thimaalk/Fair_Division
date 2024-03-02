@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.fair_division'
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.fair_division"
         minSdk 25
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

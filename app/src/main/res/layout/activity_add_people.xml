@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AddPeopleActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Agents"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/helvetica_bold"
+            android:textSize="44sp"
+            android:layout_marginBottom="20sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/agentsList"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginStart="5sp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/noAgentsText"
+        android:text="No Agents Found"
+        android:fontFamily="@font/helvetica_light"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Add New Agent"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00a152"
+        app:srcCompat="@drawable/add_48px" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

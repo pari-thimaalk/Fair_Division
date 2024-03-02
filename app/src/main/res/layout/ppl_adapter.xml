@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/agentText"
+        android:fontFamily="@font/helvetica_bold"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="horizontal"
+
+
+        >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:id="@+id/edit"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_black_40dp"
+            android:layout_marginEnd="10dp"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:id="@+id/delete"
+            android:layout_height="wrap_content"
+            android:background="@drawable/delete_40px"
+            android:layout_marginEnd="10dp"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#808080"
+        android:layout_gravity="bottom"
+        />
+
+
+</FrameLayout>
