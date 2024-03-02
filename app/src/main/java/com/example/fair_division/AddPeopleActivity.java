@@ -49,7 +49,6 @@ public class AddPeopleActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     agentInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
-                    Toast.makeText(AddPeopleActivity.this, "Added " + agentInput.getText(), Toast.LENGTH_SHORT).show();
                     agents.add(String.valueOf(agentInput.getText()));
                     pplList.setAdapter(new PplAdapter(agents));
                     pplList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
