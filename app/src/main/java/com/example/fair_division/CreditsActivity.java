@@ -17,7 +17,7 @@ public class CreditsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits);
         creditsPplList = findViewById(R.id.creditsPplList);
-        creditsPplList.setAdapter(new CreditsPplAdapter(getIntent().getStringArrayListExtra("ppl")));
+        creditsPplList.setAdapter(new CreditsPplAdapter(getIntent().getStringArrayListExtra("ppl"),CreditsActivity.this));
         creditsPplList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         Log.d("Credits People", String.valueOf(getIntent().getStringArrayListExtra("ppl")));
         Log.d("Credits Goods", String.valueOf(getIntent().getStringArrayListExtra("goods")));

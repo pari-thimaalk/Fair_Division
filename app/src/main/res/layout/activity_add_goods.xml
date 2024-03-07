@@ -28,19 +28,20 @@
             android:clickable="true"
             android:focusable="true"
             android:layout_margin="8sp"/>
+
         <Button
             android:id="@+id/goodsFab"
-            android:layout_width="wrap_content"
+            android:layout_width="201dp"
             android:layout_height="wrap_content"
-            android:contentDescription="Add New Agent"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/black"
-            android:text="Add New Good"
+            android:backgroundTint="@color/brightblue"
+            android:contentDescription="Add New Agent"
+            android:drawableLeft="@drawable/add_48px"
             android:fontFamily="@font/helvetica_bold"
-            android:textSize="15sp"
-            android:drawableLeft="@drawable/add_48px" />
+            android:text="Add New Good"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -52,6 +53,7 @@
         android:fontFamily="@font/helvetica_light"
         android:textSize="20sp"
         android:textColor="@color/black"
+        android:background="@color/white"
         android:visibility="gone"
         android:layout_gravity="center"/>
     <Button
@@ -60,7 +62,7 @@
         android:id="@+id/goodsNextBtn"
         android:layout_gravity="bottom|end"
         android:layout_margin="15sp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/brightblue"
         android:text="Next"
         android:fontFamily="@font/helvetica_bold"
         android:visibility="gone"/>

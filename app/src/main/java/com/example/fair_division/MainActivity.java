@@ -3,6 +3,7 @@ package com.example.fair_division;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.content.Intent;
+import android.view.Window;
 import android.widget.ScrollView;
 import android.os.Bundle;
 
