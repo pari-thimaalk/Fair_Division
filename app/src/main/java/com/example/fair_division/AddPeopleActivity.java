@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class AddPeopleActivity extends AppCompatActivity {
-    FloatingActionButton fab;
+    Button fab;
     Button nextBtn;
     RecyclerView pplList;
     EditText agentInput;
