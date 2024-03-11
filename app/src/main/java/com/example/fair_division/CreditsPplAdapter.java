@@ -18,11 +18,13 @@ import java.util.ArrayList;
 public class CreditsPplAdapter extends RecyclerView.Adapter<CreditsPplAdapter.ViewHolder>{
 
     ArrayList<String> agents;
+    ArrayList<String> goods;
     private Context context;
 
-    public CreditsPplAdapter(ArrayList<String> ppl, Context context) {
+    public CreditsPplAdapter(ArrayList<String> ppl, ArrayList<String> goods, Context context) {
         agents = ppl;
         this.context = context;
+        this.goods = goods;
     }
 
     @NonNull
@@ -30,7 +32,6 @@ public class CreditsPplAdapter extends RecyclerView.Adapter<CreditsPplAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.credits_ppl_adapter, parent, false);
-
         return new CreditsPplAdapter.ViewHolder(view);
     }
 
@@ -46,6 +47,7 @@ public class CreditsPplAdapter extends RecyclerView.Adapter<CreditsPplAdapter.Vi
                 String personName = agents.get(position);
                 Intent intent = new Intent(context, AddCreditsActivity.class);
                 intent.putExtra("personName",personName);
+                intent.putExtra("goodslist",goods);
                 context.startActivity(intent);
 
             }

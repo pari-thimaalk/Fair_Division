@@ -10,30 +10,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-
-public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> {
+public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHolder> {
     ArrayList<String> goodsList;
-
-
-    public GoodsAdapter(ArrayList<String> goods) {
+    public ChoicesAdapter(ArrayList<String> goods) {
         goodsList = goods;
     }
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.goods_adapter, parent, false);
+                .inflate(R.layout.choices_adapter, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.getListHolder().setText(goodsList.get(position));
-
     }
 
     @Override
@@ -46,12 +39,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            listHolder = itemView.findViewById(R.id.goodsText);
+            listHolder = itemView.findViewById(R.id.goodName);
         }
 
         public TextView getListHolder() {
             return listHolder;
         }
     }
-
 }
