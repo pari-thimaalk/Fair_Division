@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.view.Window;
 import android.widget.ScrollView;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +20,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        EXAMPLE CODE FOR HOW TO INTERFACE WITH PYTHON
+//        ------------BEGIN EXAMPLE------------------------------------------------------
+        if(!Python.isStarted()){
+            Python.start(new AndroidPlatform(this));
+        }
+        Python py = Python.getInstance();
+        PyObject module = py.getModule("test");
+        PyObject fn = module.get("add");
+
+        Toast.makeText(getApplicationContext(), "Add fn output is " + String.valueOf(fn.call(3,4)), Toast.LENGTH_SHORT).show();
+//        -------------END OF EXAMPLE--------------------------------------------------
         ScrollView scrollView = findViewById(R.id.scrollView);
         scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
