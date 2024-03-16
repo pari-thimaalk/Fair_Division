@@ -61,6 +61,7 @@ public class AddGoodsActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), CreditsActivity.class);
             i.putStringArrayListExtra("ppl", getIntent().getStringArrayListExtra("ppl"));
             i.putStringArrayListExtra("goods", goods);
+            i.putExtra("isAddGoods",1);
             startActivity(i);
         });
     }

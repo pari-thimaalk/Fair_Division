@@ -11,9 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHolder> {
     ArrayList<String> goodsList;
+
     public ChoicesAdapter(ArrayList<String> goods) {
         goodsList = goods;
     }

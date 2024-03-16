@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CreditsPplAdapter extends RecyclerView.Adapter<CreditsPplAdapter.ViewHolder>{
 
@@ -48,6 +49,7 @@ public class CreditsPplAdapter extends RecyclerView.Adapter<CreditsPplAdapter.Vi
                 Intent intent = new Intent(context, AddCreditsActivity.class);
                 intent.putExtra("personName",personName);
                 intent.putExtra("goodslist",goods);
+                intent.putExtra("Personid",position);
                 context.startActivity(intent);
 
             }
