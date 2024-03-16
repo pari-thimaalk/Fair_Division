@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class AddCreditsActivity extends AppCompatActivity {
 
     RecyclerView choicesList;
     Button done_button;
+    TextView creditsrm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,29 +31,34 @@ public class AddCreditsActivity extends AppCompatActivity {
         String name = getIntent().getStringExtra("personName");
         TextView nametext = findViewById(R.id.PersonName);
         nametext.setText(name);
-
+        creditsrm = findViewById(R.id.CreditsLeft);
         choicesList = findViewById(R.id.PreferencesList);
-        choicesList.setAdapter(new ChoicesAdapter(getIntent().getStringArrayListExtra("goodslist")));
+        choicesList.setAdapter(new ChoicesAdapter(getIntent().getStringArrayListExtra("goodslist"),creditsrm));
         choicesList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         done_button = findViewById(R.id.donechoice1);
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //get hashmap of preferences
-                int goods_count = choicesList.getAdapter().getItemCount();
-                HashMap<String,Integer> preferences = new HashMap<>();
-                for(int i = 0; i < goods_count; i++) {
-                    ChoicesAdapter.ViewHolder holder = (ChoicesAdapter.ViewHolder) choicesList.findViewHolderForAdapterPosition(i);
-                    EditText input = (EditText) holder.itemView.findViewById(R.id.itemq);
-                    TextView name = (TextView) holder.itemView.findViewById((R.id.goodName));
-                    preferences.put(name.getText().toString(), Integer.parseInt(input.getText().toString()));
+                ChoicesAdapter adp= (ChoicesAdapter) choicesList.getAdapter();
+                if(adp.getCredits_remaining() != 0){
+                    Toast.makeText(getApplicationContext(), "You need to allocate all your 100 credits!", Toast.LENGTH_SHORT).show();
+                }else{
+                    //get hashmap of preferences
+                    int goods_count = adp.getItemCount();
+                    HashMap<String,Integer> preferences = new HashMap<>();
+                    for(int i = 0; i < goods_count; i++) {
+                        ChoicesAdapter.ViewHolder holder = (ChoicesAdapter.ViewHolder) choicesList.findViewHolderForAdapterPosition(i);
+                        EditText input = (EditText) holder.itemView.findViewById(R.id.itemq);
+                        TextView name = (TextView) holder.itemView.findViewById((R.id.goodName));
+                        preferences.put(name.getText().toString(), Integer.parseInt(input.getText().toString()));
+                    }
+                    Intent intent = new Intent(AddCreditsActivity.this, CreditsActivity.class);
+                    intent.putExtra("isAddGoods",0);
+                    intent.putExtra("id",getIntent().getIntExtra("Personid",0));
+                    intent.putExtra("preferencesHash",preferences);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(AddCreditsActivity.this, CreditsActivity.class);
-                intent.putExtra("isAddGoods",0);
-                intent.putExtra("id",getIntent().getIntExtra("Personid",0));
-                intent.putExtra("preferencesHash",preferences);
-                startActivity(intent);
             }
         });
     }

@@ -1,6 +1,9 @@
 package com.example.fair_division;
 
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +18,17 @@ import java.util.HashMap;
 
 public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHolder> {
     ArrayList<String> goodsList;
+    Integer credits_remaining;
+    TextView credits_rm;
 
-    public ChoicesAdapter(ArrayList<String> goods) {
+    public Integer getCredits_remaining(){
+        return credits_remaining;
+    }
+
+    public ChoicesAdapter(ArrayList<String> goods, TextView crm) {
         goodsList = goods;
+        credits_remaining = 100;
+        credits_rm = crm;
     }
     @NonNull
     @Override
@@ -47,6 +58,30 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
                 int cur_q = Integer.parseInt(p.getText().toString());
                 if(cur_q > 0 && cur_q <= 100)cur_q -= 1;
                 p.setText(Integer.toString(cur_q));
+            }
+        });
+        EditText itemq = holder.itemView.findViewById(R.id.itemq);
+        itemq.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length()>0){
+                    credits_remaining += Integer.parseInt(charSequence.toString());
+                }
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length() > 0){
+                    credits_remaining -= Integer.parseInt(charSequence.toString());
+                    Log.d("Credits remaining",String.valueOf(credits_remaining));
+                    credits_rm.setText("Credits left: "+ String.valueOf(credits_remaining));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
