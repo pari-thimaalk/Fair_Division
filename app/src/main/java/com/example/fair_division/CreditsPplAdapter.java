@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +22,14 @@ public class CreditsPplAdapter extends RecyclerView.Adapter<CreditsPplAdapter.Vi
     ArrayList<String> agents;
     ArrayList<String> goods;
     private Context context;
+    ArrayList<HashMap<String, Integer>> data;
+    ImageView alloc, notAlloc;
 
-    public CreditsPplAdapter(ArrayList<String> ppl, ArrayList<String> goods, Context context) {
+    public CreditsPplAdapter(ArrayList<String> ppl, ArrayList<String> goods, Context context, ArrayList<HashMap<String, Integer>> data) {
         agents = ppl;
         this.context = context;
         this.goods = goods;
+        this.data = data;
     }
 
     @NonNull
@@ -39,20 +43,24 @@ public class CreditsPplAdapter extends RecyclerView.Adapter<CreditsPplAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull CreditsPplAdapter.ViewHolder holder, int position) {
         holder.getListHolder().setText(agents.get(position));
+        if(!data.get(position).isEmpty()) {
+            notAlloc = holder.itemView.findViewById(R.id.notAllocated);
+            alloc = holder.itemView.findViewById(R.id.allocated);
+            notAlloc.setVisibility(View.GONE);
+            alloc.setVisibility(View.VISIBLE);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: Add the new activity to start here
-                int position = holder.getAdapterPosition();
-                String personName = agents.get(position);
-                Intent intent = new Intent(context, AddCreditsActivity.class);
-                intent.putExtra("personName",personName);
-                intent.putExtra("goodslist",goods);
-                intent.putExtra("Personid",position);
-                context.startActivity(intent);
+        }
 
-            }
+        holder.itemView.setOnClickListener(view -> {
+            //TODO: Add the new activity to start here
+            int position1 = holder.getAdapterPosition();
+            String personName = agents.get(position1);
+            Intent intent = new Intent(context, AddCreditsActivity.class);
+            intent.putExtra("personName",personName);
+            intent.putExtra("goodslist",goods);
+            intent.putExtra("Personid", position1);
+            context.startActivity(intent);
+
         });
 
     }

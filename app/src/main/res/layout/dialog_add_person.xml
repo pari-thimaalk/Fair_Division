@@ -5,7 +5,7 @@
 
     <EditText
         android:id="@+id/agent_name_input"
-        android:inputType="textEmailAddress"
+        android:inputType="textCapWords"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

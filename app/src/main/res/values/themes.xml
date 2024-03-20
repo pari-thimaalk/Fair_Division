@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@color/offwhite</item>
-<!--        <item name="android:background">@color/brightblue</item>-->
+        <!--        <item name="android:background">@color/brightblue</item>-->
 
     </style>
 </resources>

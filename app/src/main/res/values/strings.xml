@@ -6,4 +6,5 @@
     <string name="delete_a_good">Delete a Good</string>
     <string name="edit_a_good">Edit a Good</string>
     <string name="title_activity_add_credits">AddCreditsActivity</string>
+    <string name="title_activity_allocation">AllocationActivity</string>
 </resources>
