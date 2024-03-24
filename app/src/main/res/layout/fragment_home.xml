@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="home fragment" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:text="\nWelcome to Fair Division!\n\nThis is an experimental app meant to help you divide goods and tasks among participants in a fair manner.\n\nTo divide positive items (e.g. inheritance, food, prizes), select the Goods icon on the bottom left to begin computing your allocation!\n\nAlternatively, to divide negative resources
+such as rent, work details, and chores, select the Chores icon on the bottom right to begin computing your allocation!"/>
 
-</FrameLayout>
+</LinearLayout>

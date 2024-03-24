@@ -22,14 +22,14 @@ public class MainActivity extends AppCompatActivity {
 
 //        EXAMPLE CODE FOR HOW TO INTERFACE WITH PYTHON
 //        ------------BEGIN EXAMPLE------------------------------------------------------
-        if(!Python.isStarted()){
-            Python.start(new AndroidPlatform(this));
-        }
-        Python py = Python.getInstance();
-        PyObject module = py.getModule("test");
-        PyObject fn = module.get("add");
-
-        Toast.makeText(getApplicationContext(), "Add fn output is " + String.valueOf(fn.call(3,4)), Toast.LENGTH_SHORT).show();
+//        if(!Python.isStarted()){
+//            Python.start(new AndroidPlatform(this));
+//        }
+//        Python py = Python.getInstance();
+//        PyObject module = py.getModule("test");
+//        PyObject fn = module.get("add");
+//
+//        Toast.makeText(getApplicationContext(), "Add fn output is " + String.valueOf(fn.call(3,4)), Toast.LENGTH_SHORT).show();
 //        -------------END OF EXAMPLE--------------------------------------------------
         ScrollView scrollView = findViewById(R.id.scrollView);
         scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {

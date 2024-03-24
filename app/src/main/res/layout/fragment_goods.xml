@@ -8,14 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <Button
+        android:id="@+id/addPplBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add People"
-        android:id="@+id/addPplBtn"
-        android:background="@color/brightblue"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="60sp"
+        android:background="@color/brightblue"
         android:padding="10dp"
-        android:radius="20dp"/>
+        android:radius="20dp"
+        android:text="Add People" />
 
 </LinearLayout>
