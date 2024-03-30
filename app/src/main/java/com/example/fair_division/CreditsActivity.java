@@ -39,6 +39,24 @@ public class CreditsActivity extends AppCompatActivity {
     PyObject nash;
     PyObject mnw;
 
+    // Convert Python array to Java 2D array
+    private int[][] toJava2DArray(PyObject pyArray) {
+        int numRows = pyArray.callAttr("__len__").toInt();
+//        Log.d("HELLOOOOOO",String.valueOf(pyArray.callAttr("__getitem__",0).callAttr("__getitem__",0)));
+        int[][] javaArray = new int[numRows][];
+        for (int i = 0; i < numRows; i++) {
+            PyObject pyRow = pyArray.callAttr("__getitem__",i);
+            int numCols = pyRow.callAttr("__len__").toInt();
+            Log.d("numcols",String.valueOf(numCols));
+            javaArray[i] = new int[numCols];
+            for (int j = 0; j < numCols; j++) {
+                javaArray[i][j] = pyRow.callAttr("__getitem__",j).toInt();
+                Log.d("item",String.valueOf(pyRow.callAttr("__getitem__",j).toInt()));
+            }
+        }
+        return javaArray;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,11 +103,17 @@ public class CreditsActivity extends AppCompatActivity {
                 Log.d("People Allocations", val_matrix.toString());
                 int[][] intArray = val_matrix.stream().map(  u  ->  u.stream().mapToInt(i->i).toArray()  ).toArray(int[][]::new);
 
+
                 String result = String.valueOf(mnw.call(ppllist.size(), goodsList.size(), intArray));
 
+                int[][] resultArray = toJava2DArray(mnw.call(ppllist.size(), goodsList.size(), intArray));
+                Log.d("results array",String.valueOf(resultArray[0][0]));
 
                 Intent i = new Intent(getApplicationContext(), AllocationActivity.class);
                 i.putExtra("mnw", result);
+                i.putExtra("mnwarray",resultArray);
+                i.putExtra("ppllist",ppllist);
+                i.putExtra("goodslist",goodsList);
                 startActivity(i);
 
             }
@@ -130,6 +154,6 @@ public class CreditsActivity extends AppCompatActivity {
 
 //        Log.d("Credits People", String.valueOf(getIntent().getStringArrayListExtra("ppl")));
 //        Log.d("Credits Goods", String.valueOf(getIntent().getStringArrayListExtra("goods")));
-        Log.d("Preferences Log", String.valueOf(preferenceslog));
+//        Log.d("Preferences Log", String.valueOf(preferenceslog));
     }
 }
