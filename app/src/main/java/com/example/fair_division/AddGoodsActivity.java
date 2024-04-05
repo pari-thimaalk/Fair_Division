@@ -1,25 +1,22 @@
 package com.example.fair_division;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class AddGoodsActivity extends AppCompatActivity {
-    Button fab;
+    ImageButton fab;
     Button nextBtn;
     RecyclerView goodsList;
     EditText goodsInput;
@@ -35,27 +32,25 @@ public class AddGoodsActivity extends AppCompatActivity {
         noGoods = findViewById(R.id.noGoodsText);
         goodsList = findViewById(R.id.goodsList);
         nextBtn = findViewById(R.id.goodsNextBtn);
+        goodsInput = findViewById(R.id.addGoodInput);
 
         noGoods.setVisibility(View.VISIBLE);
 
-        fab.setOnClickListener((view) -> {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddGoodsActivity.this);
-            builder.setView(getLayoutInflater().inflate(R.layout.dialog_add_good, null));
-            builder.setMessage("Add the name of the new good").setTitle("Add Good").setIcon(R.drawable.cookie_black_24dp).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    goodsInput = ((Dialog) dialogInterface).findViewById(R.id.good_name_input);
-                    goods.add(String.valueOf(goodsInput.getText()));
-                    goodsList.setAdapter(new PplAdapter(goods));
-                    goodsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    noGoods.setVisibility(View.GONE);
+        fab.setOnClickListener(view -> {
+            if(goodsInput.getText().toString().isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Add a new agent's name!", Toast.LENGTH_SHORT).show();
+            } else {
+                goods.add(goodsInput.getText().toString());
+                goodsList.setAdapter(new PplAdapter(goods));
+                goodsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                noGoods.setVisibility(View.GONE);
+                if(goods.size() >=2) {
                     nextBtn.setVisibility(View.VISIBLE);
-
                 }
-            }).setNegativeButton("Cancel", ((dialogInterface, i) -> {
-            })).create().show();
+                goodsInput.setText("");
+            }
         });
+
 
         nextBtn.setOnClickListener(view -> {
             Intent i = new Intent(getApplicationContext(), CreditsActivity.class);

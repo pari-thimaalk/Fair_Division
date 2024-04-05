@@ -29,19 +29,43 @@
             android:focusable="true"
             android:layout_margin="8sp"/>
 
-        <Button
-            android:id="@+id/goodsFab"
-            android:layout_width="201dp"
+<!--        <Button-->
+<!--            android:id="@+id/goodsFab"-->
+<!--            android:layout_width="201dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:backgroundTint="@color/brightblue"-->
+<!--            android:contentDescription="Add New Agent"-->
+<!--            android:drawableLeft="@drawable/add_48px"-->
+<!--            android:fontFamily="@font/helvetica_bold"-->
+<!--            android:text="Add New Good"-->
+<!--            android:textSize="15sp" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/brightblue"
-            android:contentDescription="Add New Agent"
-            android:drawableLeft="@drawable/add_48px"
-            android:fontFamily="@font/helvetica_bold"
-            android:text="Add New Good"
-            android:textSize="15sp" />
+            android:orientation="horizontal"
+            android:layout_margin="10sp">
+
+            <EditText
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:hint="Add New Good"
+                android:id="@+id/addGoodInput"
+                android:inputType="textCapWords"
+                android:layout_margin="5sp"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/goodsFab"
+                android:src="@drawable/add_48px"
+                android:layout_marginStart="10sp"
+                android:padding="7sp"
+                />
+        </LinearLayout>
 
     </LinearLayout>
 
