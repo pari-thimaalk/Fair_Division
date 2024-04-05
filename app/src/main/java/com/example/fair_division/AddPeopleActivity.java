@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class AddPeopleActivity extends AppCompatActivity {
-    Button fab;
+    ImageButton fab;
     Button nextBtn;
     RecyclerView pplList;
     EditText agentInput;
@@ -37,29 +38,49 @@ public class AddPeopleActivity extends AppCompatActivity {
         noAgents = findViewById(R.id.noAgentsText);
         pplList = findViewById(R.id.agentsList);
         nextBtn = findViewById(R.id.nextBtn);
+        agentInput = findViewById(R.id.addAgentInput);
 
 
         noAgents.setVisibility(View.VISIBLE);
 
-        fab.setOnClickListener((view) -> {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddPeopleActivity.this);
-            builder.setView(getLayoutInflater().inflate(R.layout.dialog_add_person, null));
-            builder.setMessage("Add the name of the new agent").setTitle("Add Agent").setIcon(R.drawable.ic_baseline_person_24).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    agentInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
-                    agents.add(String.valueOf(agentInput.getText()));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(agentInput.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Add a new agent's name!", Toast.LENGTH_SHORT).show();
+                } else {
+                    agents.add(agentInput.getText().toString());
                     pplList.setAdapter(new PplAdapter(agents));
                     pplList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     noAgents.setVisibility(View.GONE);
-                    nextBtn.setVisibility(View.VISIBLE);
-
-
+                    if(agents.size() >=2) {
+                        nextBtn.setVisibility(View.VISIBLE);
+                    }
+                    agentInput.setText("");
                 }
-            }).setNegativeButton("Cancel", ((dialogInterface, i) -> {
-            })).create().show();
+
+            }
         });
+
+//        fab.setOnClickListener((view) -> {
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(AddPeopleActivity.this);
+//            builder.setView(getLayoutInflater().inflate(R.layout.dialog_add_person, null));
+//            builder.setMessage("Add the name of the new agent").setTitle("Add Agent").setIcon(R.drawable.ic_baseline_person_24).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    agentInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+//                    agents.add(String.valueOf(agentInput.getText()));
+//                    pplList.setAdapter(new PplAdapter(agents));
+//                    pplList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//                    noAgents.setVisibility(View.GONE);
+//                    nextBtn.setVisibility(View.VISIBLE);
+//
+//
+//                }
+//            }).setNegativeButton("Cancel", ((dialogInterface, i) -> {
+//            })).create().show();
+//        });
 
         nextBtn.setOnClickListener(view -> {
             Intent i = new Intent(getApplicationContext(), AddGoodsActivity.class);
