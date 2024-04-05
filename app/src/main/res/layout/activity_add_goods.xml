@@ -29,19 +29,6 @@
             android:focusable="true"
             android:layout_margin="8sp"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/goodsFab"-->
-<!--            android:layout_width="201dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:layout_marginBottom="16dp"-->
-<!--            android:backgroundTint="@color/brightblue"-->
-<!--            android:contentDescription="Add New Agent"-->
-<!--            android:drawableLeft="@drawable/add_48px"-->
-<!--            android:fontFamily="@font/helvetica_bold"-->
-<!--            android:text="Add New Good"-->
-<!--            android:textSize="15sp" />-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
