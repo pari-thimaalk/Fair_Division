@@ -42,7 +42,6 @@ public class CreditsActivity extends AppCompatActivity {
     // Convert Python array to Java 2D array
     private int[][] toJava2DArray(PyObject pyArray) {
         int numRows = pyArray.callAttr("__len__").toInt();
-//        Log.d("HELLOOOOOO",String.valueOf(pyArray.callAttr("__getitem__",0).callAttr("__getitem__",0)));
         int[][] javaArray = new int[numRows][];
         for (int i = 0; i < numRows; i++) {
             PyObject pyRow = pyArray.callAttr("__getitem__",i);
