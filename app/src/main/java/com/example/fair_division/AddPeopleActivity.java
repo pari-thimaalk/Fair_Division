@@ -54,8 +54,9 @@ public class AddPeopleActivity extends AppCompatActivity {
 
 
         nextBtn.setOnClickListener(view -> {
-            Intent i = new Intent(getApplicationContext(), AddGoodsActivity.class);
+            Intent i = new Intent(getApplicationContext(), CreditsActivity.class);
             i.putStringArrayListExtra("ppl", agents);
+            i.putStringArrayListExtra("goods", getIntent().getStringArrayListExtra("goods"));
             startActivity(i);
         });
     }
