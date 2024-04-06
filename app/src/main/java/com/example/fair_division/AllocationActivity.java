@@ -74,7 +74,7 @@ public class AllocationActivity extends AppCompatActivity {
         Log.d("allocation matrix",String.valueOf(arrayList2D));
         Log.d("allocation results", String.valueOf(allocationlist));
 
-        ArrayAdapter<String> spinneradapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,ppllist);
+        ArrayAdapter<String> spinneradapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,ppllist);
         Spinner spinner = findViewById(R.id.spinner);
         spinner.setAdapter(spinneradapter);
 
