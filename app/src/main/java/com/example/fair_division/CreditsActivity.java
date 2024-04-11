@@ -76,46 +76,42 @@ public class CreditsActivity extends AppCompatActivity {
 
         allocationDao = db.allocationDao();
 
-        calculateAlloc.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                ArrayList<ArrayList<Integer>> val_matrix = new ArrayList<>();
-                String sess = UUID.randomUUID().toString();
-                for (int i = 0; i < ppllist.size(); i++) {
-                    val_matrix.add(new ArrayList<>(goodsList.size()));
-                    int finalI = i;
-                    preferenceslog.get(i).forEach((k, v) -> {
-                        Allocation alloc = new Allocation(ppllist.get(finalI), k, v, sess);
-                        val_matrix.get(finalI).add(v);
+        calculateAlloc.setOnClickListener(view -> {
+            ArrayList<ArrayList<Integer>> val_matrix = new ArrayList<>();
+            String sess = UUID.randomUUID().toString();
+            for (int i = 0; i < ppllist.size(); i++) {
+                val_matrix.add(new ArrayList<>(goodsList.size()));
+                int finalI = i;
+                preferenceslog.get(i).forEach((k, v) -> {
+                    Allocation alloc = new Allocation(ppllist.get(finalI), k, v, sess);
+                    val_matrix.get(finalI).add(v);
 //                        val_matrix.get(finalI).toArray();
 
 
-                        disposable.add(
-                                allocationDao.InsertRankingAsync(alloc)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(() -> Log.d("Added Allocation", k + ' ' + v)));
+                    disposable.add(
+                            allocationDao.InsertRankingAsync(alloc)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(() -> Log.d("Added Allocation", k + ' ' + v)));
 
-                    });
-                }
-                Log.d("People Allocations", val_matrix.toString());
-                int[][] intArray = val_matrix.stream().map(  u  ->  u.stream().mapToInt(i->i).toArray()  ).toArray(int[][]::new);
-
-
-                String result = String.valueOf(mnw.call(ppllist.size(), goodsList.size(), intArray));
-
-                int[][] resultArray = toJava2DArray(mnw.call(ppllist.size(), goodsList.size(), intArray));
-                Log.d("results array",String.valueOf(resultArray[0][0]));
-
-                Intent i = new Intent(getApplicationContext(), AllocationActivity.class);
-                i.putExtra("mnw", result);
-                i.putExtra("mnwarray",resultArray);
-                i.putExtra("ppllist",ppllist);
-                i.putExtra("goodslist",goodsList);
-                startActivity(i);
-
+                });
             }
+            Log.d("People Allocations", val_matrix.toString());
+            int[][] intArray = val_matrix.stream().map(  u  ->  u.stream().mapToInt(i->i).toArray()  ).toArray(int[][]::new);
+
+
+            String result = String.valueOf(mnw.call(ppllist.size(), goodsList.size(), intArray));
+
+            int[][] resultArray = toJava2DArray(mnw.call(ppllist.size(), goodsList.size(), intArray));
+            Log.d("results array",String.valueOf(resultArray[0][0]));
+
+            Intent i = new Intent(getApplicationContext(), AllocationActivity.class);
+            i.putExtra("mnw", result);
+            i.putExtra("mnwarray",resultArray);
+            i.putExtra("ppllist",ppllist);
+            i.putExtra("goodslist",goodsList);
+            startActivity(i);
+
         });
 
         //if we are coming from addgoods activity, initialize preferences to be empty

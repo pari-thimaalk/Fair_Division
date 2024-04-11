@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "808096599773",
+    "project_id": "fairdivision-dc6c7",
+    "storage_bucket": "fairdivision-dc6c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808096599773:android:3794b9044a71a48ca59534",
+        "android_client_info": {
+          "package_name": "com.example.fair_division"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcGusTCIx9FBs6HBp1QgOc2kg02E4H5dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
