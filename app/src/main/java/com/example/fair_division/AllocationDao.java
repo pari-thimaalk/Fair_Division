@@ -22,6 +22,9 @@ public interface AllocationDao {
     @Query("SELECT * FROM allocation WHERE session_id LIKE :session")
     Flowable<List<Allocation>> getAllocationsAsync(String session);
 
+    @Query("SELECT * FROM allocation WHERE session_id LIKE :session")
+    List<Allocation> getAllocationsSync(String session);
+
     @Query("SELECT * FROM allocation WHERE allocation_id >= :num")
     Single<List<Allocation>> getAllocationsAfter(int num);
 

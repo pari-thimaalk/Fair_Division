@@ -83,7 +83,7 @@ public class CreditsActivity extends AppCompatActivity {
                 val_matrix.add(new ArrayList<>(goodsList.size()));
                 int finalI = i;
                 preferenceslog.get(i).forEach((k, v) -> {
-                    Allocation alloc = new Allocation(ppllist.get(finalI), k, v, sess);
+                    Allocation alloc = new Allocation(ppllist.get(finalI), k, v, sess, true);
                     val_matrix.get(finalI).add(v);
 //                        val_matrix.get(finalI).toArray();
 

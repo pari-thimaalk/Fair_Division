@@ -30,13 +30,17 @@ public class Allocation {
     @ColumnInfo(name = "credits")
     private int credits;
 
+    @ColumnInfo(name = "is_good")
+    private boolean isGood;
+
 
     // Constructor, getters, and setters
-    public Allocation(String personName, String goodName, int credits, @NonNull String sessionId) {
+    public Allocation(String personName, String goodName, int credits, @NonNull String sessionId, boolean isGood) {
         this.personName = personName;
         this.goodName = goodName;
         this.credits = credits;
         this.sessionId = sessionId;
+        this.isGood = isGood;
     }
 
     @NonNull
@@ -75,5 +79,13 @@ public class Allocation {
 
     public void setCredits(int credits) {
         this.credits = credits;
+    }
+
+    public boolean getIsGood() {
+        return isGood;
+    }
+
+    public void setGood(boolean isGood) {
+        this.isGood = isGood;
     }
 }

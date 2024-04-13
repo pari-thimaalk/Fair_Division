@@ -54,7 +54,7 @@ public class HomeChoiceActivity extends AppCompatActivity {
 
         Log.d("Last Pushed", String.valueOf(lastPushed));
 
-        mDisposable.add(dao.getAllocationsAfter(lastPushed).subscribeOn(Schedulers.io()).subscribe((a) ->
+        mDisposable.add(dao.getAllocationSessionsAsync(lastPushed).subscribeOn(Schedulers.io()).subscribe((a) ->
         { if(!a.isEmpty()) {
             handleDbCompleted(a);
         } else {
@@ -99,27 +99,27 @@ public class HomeChoiceActivity extends AppCompatActivity {
 
             };
 
-    private void handleDbCompleted(List<Allocation> allocationList) {
-        List<String> sessions = dao.getAllocationSessionsSync(lastPushed);
+    private void handleDbCompleted(List<String> sessions) {
+        int lastPushedCounter = lastPushed;
         for(String sess : sessions) {
             Map<String, Object> allocData = new HashMap<>();
+            List<Allocation> allocationList = dao.getAllocationsSync(sess);
             int counter = 1;
             for (Allocation alloc : allocationList) {
-                if(!alloc.getSessionId().equals(sess)) {
-                    break;
-                }
                 ArrayList<Object> allocList = new ArrayList<>();
                 allocList.add(alloc.getPersonName());
                 allocList.add(alloc.getGoodName());
                 allocList.add(alloc.getCredits());
+                allocList.add(alloc.getIsGood());
+                Log.d("Alloc", String.valueOf(allocList));
                 allocData.put("alloc" + counter, allocList);
                 counter++;
+                lastPushedCounter++;
             }
             firestore.collection("allocations").document("Session " + sess).set(allocData);
         }
-        lastPushed = allocationList.get(allocationList.size() - 1).getAllocId() + 1;
 
-        sharedPreferences.edit().putInt("lastAlloc", lastPushed).apply();
+        sharedPreferences.edit().putInt("lastAlloc", lastPushedCounter).apply();
     }
 
 }
