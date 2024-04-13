@@ -108,7 +108,8 @@ public class GoodsFragment extends Fragment {
         nextBtn.setOnClickListener(view -> {
             Intent i = new Intent(getContext(), AddPeopleActivity.class);
             i.putStringArrayListExtra("goods", goods);
-            i.putExtra("isAddGoods",1);
+//            i.putExtra("isAddGoods",1);
+            i.putExtra("isgood",1);
             startActivity(i);
         });
         return v;

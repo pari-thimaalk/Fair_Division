@@ -12,11 +12,13 @@ import java.util.ArrayList;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
-    private ArrayList<String> mData;
+    private ArrayList<String> People;
+    private ArrayList<String> ItemShare;
 
     // Constructor to set data
-    public ResultsAdapter(ArrayList<String> data) {
-        mData = data;
+    public ResultsAdapter(ArrayList<String> People1, ArrayList<String> isare) {
+        People = People1;
+        ItemShare = isare;
     }
 
     // Create new views (invoked by the layout manager)
@@ -30,22 +32,25 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.textView.setText(mData.get(position));
+        holder.nameView.setText(People.get(position));
+        holder.gsview.setText(ItemShare.get(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mData.size();
+        return People.size();
     }
 
     // Provide a reference to the views for each data item
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public TextView nameView;
+        public TextView gsview;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.GoodShare);
+            nameView = itemView.findViewById(R.id.Person);
+            gsview = itemView.findViewById(R.id.GoodShare);
         }
     }
 }

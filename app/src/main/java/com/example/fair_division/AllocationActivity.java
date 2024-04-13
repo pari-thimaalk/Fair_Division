@@ -59,12 +59,13 @@ public class AllocationActivity extends AppCompatActivity {
         }
 
         //generate a 2d array where we replace the good numbers with the good names themselves
-        ArrayList<ArrayList<String>> stringmatrix = new ArrayList<>();
+        ArrayList<String> stringmatrix = new ArrayList<>();
         for(int person = 0; person < resultarray.length;person++){
-            ArrayList<String> personshare = new ArrayList<>();
+            String personshare = "";
             int num_items = arrayList2D.get(person).size();
             for(int good = 0;good < num_items;good++){
-                personshare.add(goodslist.get(arrayList2D.get(person).get(good)));
+                if(good != 0){personshare += "\n";}
+                personshare += goodslist.get(arrayList2D.get(person).get(good));
             }
             stringmatrix.add(personshare);
         }
@@ -74,24 +75,25 @@ public class AllocationActivity extends AppCompatActivity {
         Log.d("allocation matrix",String.valueOf(arrayList2D));
         Log.d("allocation results", String.valueOf(allocationlist));
 
-        ArrayAdapter<String> spinneradapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,ppllist);
-        Spinner spinner = findViewById(R.id.spinner);
-        spinner.setAdapter(spinneradapter);
+//        ArrayAdapter<String> spinneradapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,ppllist);
+//        Spinner spinner = findViewById(R.id.spinner);
+//        spinner.setAdapter(spinneradapter);
 
         RecyclerView recyclerView = findViewById(R.id.AllocationRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("spinner index", String.valueOf(i));
-                recyclerView.setAdapter(new ResultsAdapter(stringmatrix.get(i)));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        recyclerView.setAdapter(new ResultsAdapter(ppllist,stringmatrix));
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d("spinner index", String.valueOf(i));
+//                recyclerView.setAdapter(new ResultsAdapter(stringmatrix.get(i)));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
         //go back to main activity when done
         Button donebtn = findViewById(R.id.donealcbtn);

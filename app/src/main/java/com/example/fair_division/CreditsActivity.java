@@ -31,6 +31,7 @@ public class CreditsActivity extends AppCompatActivity {
     static ArrayList<HashMap<String, Integer>> preferenceslog;
     static ArrayList<String> goodsList;
     static ArrayList<String> ppllist;
+    static boolean isgood;
     Button calculateAlloc;
     AppDatabase db;
     CompositeDisposable disposable = new CompositeDisposable();
@@ -83,7 +84,7 @@ public class CreditsActivity extends AppCompatActivity {
                 val_matrix.add(new ArrayList<>(goodsList.size()));
                 int finalI = i;
                 preferenceslog.get(i).forEach((k, v) -> {
-                    Allocation alloc = new Allocation(ppllist.get(finalI), k, v, sess, true);
+                    Allocation alloc = new Allocation(ppllist.get(finalI), k, v, sess, isgood);
                     val_matrix.get(finalI).add(v);
 //                        val_matrix.get(finalI).toArray();
 
@@ -92,7 +93,7 @@ public class CreditsActivity extends AppCompatActivity {
                             allocationDao.InsertRankingAsync(alloc)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(() -> Log.d("Added Allocation", k + ' ' + v)));
+                                    .subscribe(() -> Log.d("Added Allocation", k + ' ' + v + ' ' + isgood)));
 
                 });
             }
@@ -117,6 +118,11 @@ public class CreditsActivity extends AppCompatActivity {
         //if we are coming from addgoods activity, initialize preferences to be empty
         if (getIntent().getIntExtra("isAddGoods", 1) == 1) {
             //empty dictionary
+            if(getIntent().getIntExtra("isgood",1) == 1){
+                isgood = true;
+            }else{
+                isgood = false;
+            }
             int ppl_count = getIntent().getStringArrayListExtra("ppl").size();
             preferenceslog = new ArrayList<>();
             for (int i = 0; i < ppl_count; i++) {
