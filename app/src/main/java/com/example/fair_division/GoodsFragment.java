@@ -52,8 +52,6 @@ public class GoodsFragment extends Fragment {
     public static GoodsFragment newInstance(String param1, String param2) {
         GoodsFragment fragment = new GoodsFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,13 +59,6 @@ public class GoodsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
-
     }
 
     @Override
@@ -75,11 +66,6 @@ public class GoodsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_goods, container, false);
-//        addPplBtn = view.findViewById(R.id.addPplBtn);
-//        addPplBtn.setOnClickListener(v -> {
-//            Intent i = new Intent(getContext(), AddPeopleActivity.class);
-//            startActivity(i);
-//        });
 
         fab = v.findViewById(R.id.goodsFab);
         noGoods = v.findViewById(R.id.noGoodsText);
@@ -91,7 +77,7 @@ public class GoodsFragment extends Fragment {
 
         fab.setOnClickListener(view -> {
             if(goodsInput.getText().toString().isEmpty()) {
-                Toast.makeText(getContext(), "Add a new agent's name!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Add a new good's name!", Toast.LENGTH_SHORT).show();
             } else {
                 goods.add(goodsInput.getText().toString());
                 goodsList.setAdapter(new PplAdapter(goods));

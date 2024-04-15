@@ -10,9 +10,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="20dp"
-        android:text="\nWelcome to Fair Division!\n\nThis is an experimental app meant to help you divide goods and tasks among participants in a fair manner.\n\nTo divide positive items (e.g. inheritance, food, prizes), select the Goods icon on the bottom left to begin computing your allocation!\n\nAlternatively, to divide negative resources
+        android:text="Welcome to Fair Division!"
+        android:fontFamily="@font/helvetica_bold"
+        android:layout_gravity="center_horizontal"
+        android:padding="10sp"
+        android:textSize="30sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10sp"
+        android:textSize="20sp"
+        android:layout_margin="10sp"
+        android:fontFamily="@font/helvetica"
+        android:text="This is an experimental app meant to help you divide goods and tasks among participants in a fair manner.\n\nTo divide positive items (e.g. inheritance, food, prizes), select the Goods icon on the bottom left to begin computing your allocation!\n\nAlternatively, to divide negative resources
 such as rent, work details, and chores, select the Chores icon on the bottom right to begin computing your allocation!"/>
 
 </LinearLayout>
