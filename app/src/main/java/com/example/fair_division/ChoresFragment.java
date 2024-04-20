@@ -59,12 +59,6 @@ public class ChoresFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
 
     }
 
@@ -94,7 +88,7 @@ public class ChoresFragment extends Fragment {
 
         fab.setOnClickListener(view -> {
             if(goodsInput.getText().toString().isEmpty()) {
-                Toast.makeText(getContext(), "Add a new agent's name!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Add a new chore's name!", Toast.LENGTH_SHORT).show();
             } else {
                 goods.add(goodsInput.getText().toString());
                 goodsList.setAdapter(new PplAdapter(goods));
