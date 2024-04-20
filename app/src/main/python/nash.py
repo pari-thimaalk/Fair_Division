@@ -70,7 +70,7 @@ def get_rr_allocation(num_agents, num_items, valuation):
             alloc[i].append(index)
             #remove that item from everyones valuation matrix, by setting to 200
             for j in range(num_agents):
-                val_matrix[j][index] = 200
+                val_matrix[j][index] = 11*num_items
                 # print("valuation",val_matrix)
             items_allocated += 1
             #break if all items have been allocated, else go to next agent's turn
