@@ -39,6 +39,7 @@ public class CreditsActivity extends AppCompatActivity {
     Python py;
     PyObject nash;
     PyObject mnw;
+    PyObject rr_alloc;
 
     // Convert Python array to Java 2D array
     private int[][] toJava2DArray(PyObject pyArray) {
@@ -68,7 +69,7 @@ public class CreditsActivity extends AppCompatActivity {
         py = Python.getInstance();
         nash = py.getModule("nash");
         mnw = nash.get("main");
-
+        rr_alloc = nash.get("get_rr_allocation");
         calculateAlloc = findViewById(R.id.calculateBtn);
         db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "allocations")
@@ -100,14 +101,22 @@ public class CreditsActivity extends AppCompatActivity {
             Log.d("People Allocations", val_matrix.toString());
             int[][] intArray = val_matrix.stream().map(  u  ->  u.stream().mapToInt(i->i).toArray()  ).toArray(int[][]::new);
 
-
-            String result = String.valueOf(mnw.call(ppllist.size(), goodsList.size(), intArray));
-
-            int[][] resultArray = toJava2DArray(mnw.call(ppllist.size(), goodsList.size(), intArray));
+            String result;
+            int[][]resultArray;
+            if(isgood){
+//                result = String.valueOf(mnw.call(ppllist.size(), goodsList.size(), intArray));
+                resultArray = toJava2DArray(mnw.call(ppllist.size(), goodsList.size(), intArray));
+            }else{
+//                result = String.valueOf(rr_alloc.call(ppllist.size(), goodsList.size(), intArray));
+                resultArray = toJava2DArray(rr_alloc.call(ppllist.size(), goodsList.size(), intArray));
+            }
+//            String result = String.valueOf(mnw.call(ppllist.size(), goodsList.size(), intArray));
+//
+//            int[][] resultArray = toJava2DArray(mnw.call(ppllist.size(), goodsList.size(), intArray));
             Log.d("results array",String.valueOf(resultArray[0][0]));
 
             Intent i = new Intent(getApplicationContext(), AllocationActivity.class);
-            i.putExtra("mnw", result);
+//            i.putExtra("mnw", result);
             i.putExtra("mnwarray",resultArray);
             i.putExtra("ppllist",ppllist);
             i.putExtra("goodslist",goodsList);

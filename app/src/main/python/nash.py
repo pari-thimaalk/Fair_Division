@@ -36,7 +36,7 @@ def get_max_nash_welfare(num_agents, num_items, valuation_matrix):
         if nash_welfare > opt_nash_welfare:
             opt_nash_welfare = nash_welfare
             opt_alloc = alloc
-
+    print("see how")
     return opt_alloc, opt_nash_welfare
 
 
@@ -53,5 +53,30 @@ def main(num_agents, num_items, valuation_matrix):
     print("MNW: ", mnw)
     return mnw_alloc
 
+def get_rr_allocation(num_agents, num_items, valuation):
+    # print("hello")
+    # return [[0,3],[2,1]]
+    val_matrix = valuation
+    # print("agents list",num_agents)
+    # print("items list",num_items)
+    items_allocated = 0
+    alloc = [[] for i in range(num_agents)]
+    while items_allocated < num_items:
+        print("items allocated",items_allocated)
+        for i in range(num_agents):
+            #get index of item to be allocated
+            index = val_matrix[i].index(min(val_matrix[i]))
+            print("agent turn",i,"index",index)
+            alloc[i].append(index)
+            #remove that item from everyones valuation matrix, by setting to 200
+            for j in range(num_agents):
+                val_matrix[j][index] = 200
+                # print("valuation",val_matrix)
+            items_allocated += 1
+            #break if all items have been allocated, else go to next agent's turn
+            if items_allocated == num_items:
+                break
+    print("results",alloc)
+    return alloc
 # if __name__ == '__main__':
 #     main()
