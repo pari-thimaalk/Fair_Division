@@ -34,6 +34,10 @@ public interface AllocationDao {
     @Query("SELECT DISTINCT session_id FROM allocation WHERE allocation_id >= :num")
     List<String> getAllocationSessionsSync(int num);
 
+    @Query("SELECT DISTINCT person_name FROM allocation WHERE session_id LIKE :session")
+    List<String> getAgentsFromSession(String session);
+    @Query("SELECT * FROM allocation WHERE session_id LIKE :session AND person_name LIKE :person")
+    List<Allocation> getAllocationsforAgent(String session, String person);
 
 
 }
