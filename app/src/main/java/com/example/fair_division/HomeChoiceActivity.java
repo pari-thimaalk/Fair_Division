@@ -19,8 +19,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -102,21 +105,45 @@ public class HomeChoiceActivity extends AppCompatActivity {
     private void handleDbCompleted(List<String> sessions) {
         int lastPushedCounter = lastPushed;
         for(String sess : sessions) {
-            Map<String, Object> allocData = new HashMap<>();
-            List<Allocation> allocationList = dao.getAllocationsSync(sess);
-            int counter = 1;
-            for (Allocation alloc : allocationList) {
-                ArrayList<Object> allocList = new ArrayList<>();
-                allocList.add(alloc.getPersonName());
-                allocList.add(alloc.getGoodName());
-                allocList.add(alloc.getCredits());
-                allocList.add(alloc.getIsGood());
-                Log.d("Alloc", String.valueOf(allocList));
-                allocData.put("alloc" + counter, allocList);
-                counter++;
-                lastPushedCounter++;
+            int isGood = -1;
+            List<String> agents = dao.getAgentsFromSession(sess);
+            Map<String, Object> agentData = new HashMap<>();
+            for(String agent : agents) {
+                Map<String, Integer> allocData = new HashMap<>();
+                List<Allocation> allocations = dao.getAllocationsforAgent(sess, agent);
+                for(Allocation alloc : allocations) {
+                    allocData.put(alloc.getGoodName(), alloc.getCredits());
+                    if(isGood == -1) {
+                        isGood = (alloc.getIsGood()) ? 1 : 0;
+                    }
+                }
+                agentData.put(agent, allocData);
+
             }
-            firestore.collection("allocations").document("Session " + sess).set(allocData);
+//            Map<String, Object> allocData = new HashMap<>();
+//            List<Allocation> allocationList = dao.getAllocationsSync(sess);
+//
+//            int counter = 1;
+//            for (Allocation alloc : allocationList) {
+//                ArrayList<Object> allocList = new ArrayList<>();
+//                allocList.add(alloc.getPersonName());
+//                allocList.add(alloc.getGoodName());
+//                allocList.add(alloc.getCredits());
+//                allocList.add(alloc.getIsGood());
+//                Log.d("Alloc", String.valueOf(allocList));
+//                allocData.put("alloc" + counter, allocList);
+//
+//                counter++;
+//                lastPushedCounter++;
+//            }
+            if(isGood == 1) {
+                agentData.put("isGood", true);
+            } else {
+                agentData.put("isGood", false);
+            }
+
+            firestore.collection("allocations").document("Session " + sess).set(agentData);
+
         }
 
         sharedPreferences.edit().putInt("lastAlloc", lastPushedCounter).apply();
