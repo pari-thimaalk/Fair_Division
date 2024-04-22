@@ -22,7 +22,7 @@
         android:textSize="20sp"
         android:layout_margin="10sp"
         android:fontFamily="@font/helvetica"
-        android:text="This is an experimental app meant to help you divide goods and tasks among participants in a fair manner.\n\nTo divide positive items (e.g. inheritance, food, prizes), select the Goods icon on the bottom right to begin computing your allocation!\n\nAlternatively, to divide negative resources
-such as rent, work details, and chores, select the Chores icon on the bottom left to begin computing your allocation!"/>
+        android:text="This is an experimental app meant to help you divide goods and tasks among participants in a fair manner.\n\nTo divide positive items (e.g. inheritance, food, prizes), select the Goods icon on the bottom right to begin computing your allocation.\n\nAlternatively, to divide negative resources
+such as rent, work details, and chores, select the Chores icon on the bottom left to begin computing your allocation.\n\nWhen allocating credits for goods, give more credits for items that you want more, while for chores, give more credits to items that you want less, i.e. items that havea greater 'cost' to you.\n\n Have fun allocating!"/>
 
 </LinearLayout>

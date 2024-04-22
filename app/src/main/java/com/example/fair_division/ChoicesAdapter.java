@@ -29,6 +29,7 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
         goodsList = goods;
         credits_remaining = 10*goodsList.size();
         credits_rm = crm;
+        credits_rm.setText("Credits remaining: "+credits_remaining);
     }
     @NonNull
     @Override
