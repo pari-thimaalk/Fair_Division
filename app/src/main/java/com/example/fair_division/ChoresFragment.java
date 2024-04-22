@@ -87,10 +87,16 @@ public class ChoresFragment extends Fragment {
         noGoods.setVisibility(View.VISIBLE);
 
         fab.setOnClickListener(view -> {
-            if(goodsInput.getText().toString().isEmpty()) {
+            if(goodsInput.getText().toString().trim().isEmpty()) {
                 Toast.makeText(getContext(), "Add a new chore's name!", Toast.LENGTH_SHORT).show();
             } else {
-                goods.add(goodsInput.getText().toString());
+                for(String chore : goods) {
+                    if(chore.equalsIgnoreCase(goodsInput.getText().toString().trim())) {
+                        Toast.makeText(getContext(), "This chore is already in the list!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                goods.add(goodsInput.getText().toString().trim());
                 goodsList.setAdapter(new PplAdapter(goods));
                 goodsList.setLayoutManager(new LinearLayoutManager(getContext()));
                 noGoods.setVisibility(View.GONE);

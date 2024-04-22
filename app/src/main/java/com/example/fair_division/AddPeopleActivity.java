@@ -37,9 +37,15 @@ public class AddPeopleActivity extends AppCompatActivity {
         noAgents.setVisibility(View.VISIBLE);
 
         fab.setOnClickListener(view -> {
-            if(agentInput.getText().toString().isEmpty()) {
+            if(agentInput.getText().toString().trim().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Add a new agent's name!", Toast.LENGTH_SHORT).show();
             } else {
+                for(String agent : agents) {
+                    if(agent.equalsIgnoreCase(agentInput.getText().toString().trim())) {
+                        Toast.makeText(this, "This agent is already in the list!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 agents.add(agentInput.getText().toString());
                 pplList.setAdapter(new PplAdapter(agents));
                 pplList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

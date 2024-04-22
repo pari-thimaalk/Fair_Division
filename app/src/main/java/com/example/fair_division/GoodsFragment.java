@@ -76,10 +76,17 @@ public class GoodsFragment extends Fragment {
         noGoods.setVisibility(View.VISIBLE);
 
         fab.setOnClickListener(view -> {
-            if(goodsInput.getText().toString().isEmpty()) {
+            if(goodsInput.getText().toString().trim().isEmpty()) {
                 Toast.makeText(getContext(), "Add a new good's name!", Toast.LENGTH_SHORT).show();
-            } else {
-                goods.add(goodsInput.getText().toString());
+            }
+            else {
+                for(String good : goods) {
+                    if(good.equalsIgnoreCase(goodsInput.getText().toString().trim())) {
+                        Toast.makeText(getContext(), "This good is already in the list!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                goods.add(goodsInput.getText().toString().trim());
                 goodsList.setAdapter(new PplAdapter(goods));
                 goodsList.setLayoutManager(new LinearLayoutManager(getContext()));
                 noGoods.setVisibility(View.GONE);
@@ -89,7 +96,6 @@ public class GoodsFragment extends Fragment {
                 goodsInput.setText("");
             }
         });
-
 
         nextBtn.setOnClickListener(view -> {
             Intent i = new Intent(getContext(), AddPeopleActivity.class);
