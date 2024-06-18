@@ -10,7 +10,7 @@ class Object:
         return f"Object {self.id}: {self.a1_util}, {self.a2_util}"
 
 
-def chores_2agents(val_array):
+def chores_2agents(num_items, val_array):
     utils = val_array.tolist()
 
     u_w = utils[0]  # denoting one agent as the winner and the other as loser (winner is agent 1)
@@ -20,7 +20,7 @@ def chores_2agents(val_array):
     loser_allocation = []
 
     # filling loser allocation because all chores are given to loser
-    for i in range(len(u_w)):
+    for i in range(num_items):
         loser_allocation.append(Object(u_w[i], u_l[i], i))
 
     # sorting the list
@@ -64,16 +64,17 @@ def chores_2agents(val_array):
     return [winner, loser] # (only gives object names)
 
 
+def main(num_items, valuation_matrix):
+    # agent1_util = [-4, -5, -6, -3, -7, -2, -8]  # utility function for agent 1
+    # agent2_util = [-5, -3, -4, -6, -2, -7, -1]  # utility function for agent 2
 
-agent1_util = [-4, -5, -6, -3, -7, -2, -8]  # utility function for agent 1
-agent2_util = [-5, -3, -4, -6, -2, -7, -1]  # utility function for agent 2
 
-#input
-valuationArray = np.array([agent1_util, agent2_util])
+    # input
+    # valuation_matrix = np.array([agent1_util, agent2_util])
 
-#output (a 2d array of integers, each representing the nth object)
-a = chores_2agents(valuationArray)
 
-print(a)
+    # output (a 2d array of integers, each representing the nth object)
+    a = chores_2agents(num_items, valuation_matrix)
 
+    return a
 
