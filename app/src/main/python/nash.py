@@ -54,11 +54,7 @@ def main(num_agents, num_items, valuation_matrix):
     return mnw_alloc
 
 def get_rr_allocation(num_agents, num_items, valuation):
-    # print("hello")
-    # return [[0,3],[2,1]]
     val_matrix = valuation
-    # print("agents list",num_agents)
-    # print("items list",num_items)
     items_allocated = 0
     alloc = [[] for i in range(num_agents)]
     while items_allocated < num_items:

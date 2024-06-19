@@ -49,4 +49,8 @@
         android:backgroundTint="@color/brightblue"
         android:text="Calculate"
         android:visibility="gone" />
+
+    <include layout="@layout/loading_layout"/>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
