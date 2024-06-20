@@ -48,6 +48,10 @@ def chores_2agents(num_items, val_array):
     # switching over each item until EF1 is satisfied
     is_ef1 = False
     while is_ef1 == False:
+
+        if(len(loser_allocation) == 0):
+            break
+
         winner_allocation.append(loser_allocation.pop(0))
 
         # see if allocation is "fair" by ef1 now
