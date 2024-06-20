@@ -166,6 +166,8 @@ def chores_2agents(req: https_fn.CallableRequest):
     # switching over each item until EF1 is satisfied
     is_ef1 = False
     while is_ef1 == False:
+        if(len(loser_allocation) == 0):
+            break
         winner_allocation.append(loser_allocation.pop(0))
 
         # see if allocation is "fair" by ef1 now
@@ -178,7 +180,7 @@ def chores_2agents(req: https_fn.CallableRequest):
     winner = [obj.id for obj in winner_allocation]
     loser = [obj.id for obj in loser_allocation]
 
-    return [winner, loser] # (only gives object names)
+    return {'alloc': [winner, loser]} # (only gives object names)
 
 
 @https_fn.on_call()

@@ -221,6 +221,12 @@ public class CreditsActivity extends AppCompatActivity {
         data.put("agents", agents);
 
         if (agents == 2) {
+            for(int i = 0; i < val_matrix.size(); i++) {
+                for(int j = 0; j < val_matrix.get(i).size(); j++) {
+                    val_matrix.get(i).set(j, -1 * val_matrix.get(i).get(j));
+                }
+            }
+            data.put("values", val_matrix);
             return functions.getHttpsCallable("chores_2agents")
                     .call(data)
                     .addOnCompleteListener(task -> Log.d("Completed Chore Call", "done"))
