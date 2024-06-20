@@ -29,6 +29,7 @@ public class ChoresFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     ImageButton fab;
     Button nextBtn;
+    Button backBtn;
     RecyclerView goodsList;
     EditText goodsInput;
     TextView noGoods;

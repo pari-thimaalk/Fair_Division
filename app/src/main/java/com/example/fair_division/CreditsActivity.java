@@ -33,6 +33,7 @@ public class CreditsActivity extends AppCompatActivity {
     static ArrayList<String> ppllist;
     static boolean isgood;
     Button calculateAlloc;
+    Button backBtn;
     AppDatabase db;
     CompositeDisposable disposable = new CompositeDisposable();
     AllocationDao allocationDao;
@@ -71,6 +72,7 @@ public class CreditsActivity extends AppCompatActivity {
         mnw = nash.get("main");
         rr_alloc = nash.get("get_rr_allocation");
         calculateAlloc = findViewById(R.id.calculateBtn);
+        backBtn = findViewById(R.id.backBtn2);
         db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "allocations")
                 .fallbackToDestructiveMigration()
@@ -122,6 +124,10 @@ public class CreditsActivity extends AppCompatActivity {
             i.putExtra("goodslist",goodsList);
             startActivity(i);
 
+        });
+
+        backBtn.setOnClickListener(view -> {
+            finish();
         });
 
         //if we are coming from addgoods activity, initialize preferences to be empty
