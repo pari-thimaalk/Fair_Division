@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class AddPeopleActivity extends AppCompatActivity {
     ImageButton fab;
     Button nextBtn;
+    Button backBtn;
     RecyclerView pplList;
     EditText agentInput;
     TextView noAgents;
@@ -31,10 +32,9 @@ public class AddPeopleActivity extends AppCompatActivity {
         noAgents = findViewById(R.id.noAgentsText);
         pplList = findViewById(R.id.agentsList);
         nextBtn = findViewById(R.id.nextBtn);
+        backBtn = findViewById(R.id.backBtn);
         agentInput = findViewById(R.id.addAgentInput);
 
-
-        noAgents.setVisibility(View.VISIBLE);
 
         fab.setOnClickListener(view -> {
             if(agentInput.getText().toString().trim().isEmpty()) {
@@ -50,6 +50,9 @@ public class AddPeopleActivity extends AppCompatActivity {
                 pplList.setAdapter(new PplAdapter(agents));
                 pplList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 noAgents.setVisibility(View.GONE);
+
+                backBtn.setVisibility(View.VISIBLE);
+
                 if(agents.size() >=2) {
                     nextBtn.setVisibility(View.VISIBLE);
                 }
@@ -66,5 +69,10 @@ public class AddPeopleActivity extends AppCompatActivity {
             i.putStringArrayListExtra("goods", getIntent().getStringArrayListExtra("goods"));
             startActivity(i);
         });
+
+        backBtn.setOnClickListener(view -> {
+            finish();
+        });
+
     }
 }
