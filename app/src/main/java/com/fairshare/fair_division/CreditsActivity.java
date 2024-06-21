@@ -47,9 +47,6 @@ public class CreditsActivity extends AppCompatActivity {
     AppDatabase db;
     CompositeDisposable disposable = new CompositeDisposable();
     AllocationDao allocationDao;
-    Python py;
-    PyObject nash;
-    PyObject rr_alloc;
     FirebaseFunctions functions;
     ProgressBar loadingIcon;
     View background;
@@ -76,14 +73,7 @@ public class CreditsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits);
 
-        if(!Python.isStarted()) {
-            Python.start(new AndroidPlatform(this));
-        }
-        py = Python.getInstance();
-        nash = py.getModule("nash");
-
         functions = FirebaseFunctions.getInstance();
-        rr_alloc = nash.get("get_rr_allocation");
         calculateAlloc = findViewById(R.id.calculateBtn);
         loadingIcon = findViewById(R.id.loadingIcon);
         background = findViewById(R.id.blurBackground);
@@ -235,7 +225,6 @@ public class CreditsActivity extends AppCompatActivity {
                         assert result != null;
                         return result;
                     });
-
         }
 
         return functions.getHttpsCallable("get_rr_allocation")
