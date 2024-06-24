@@ -26,7 +26,7 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
 
     public ChoicesAdapter(ArrayList<String> goods, TextView crm) {
         goodsList = goods;
-        credits_remaining = 10*goodsList.size();
+        credits_remaining = 100;
         credits_rm = crm;
         credits_rm.setText("Credits remaining: "+credits_remaining);
     }
@@ -43,12 +43,12 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getListHolder().setText(goodsList.get(position));
         EditText p = holder.itemView.findViewById(R.id.itemq);
-        p.setFilters(new InputFilter[]{new QuantityFilter(0,10*goodsList.size())});
+        p.setFilters(new InputFilter[]{new QuantityFilter(0,100)});
         holder.itemView.findViewById(R.id.plusfab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int cur_q = Integer.parseInt(p.getText().toString());
-                if(cur_q >= 0 && cur_q < 10* goodsList.size())cur_q += 1;
+                if(cur_q >= 0 && cur_q < 100)cur_q += 1;
                 p.setText(Integer.toString(cur_q));
             }
         });
@@ -56,7 +56,7 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 int cur_q = Integer.parseInt(p.getText().toString());
-                if(cur_q > 0 && cur_q <= 10*goodsList.size())cur_q -= 1;
+                if(cur_q > 0 && cur_q <= 100)cur_q -= 1;
                 p.setText(Integer.toString(cur_q));
             }
         });
