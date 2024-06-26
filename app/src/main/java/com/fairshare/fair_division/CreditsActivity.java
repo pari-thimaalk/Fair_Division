@@ -1,6 +1,5 @@
 package com.fairshare.fair_division;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,18 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.chaquo.python.PyObject;
-import com.chaquo.python.Python;
-import com.chaquo.python.android.AndroidPlatform;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.HttpsCallableResult;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -50,23 +41,6 @@ public class CreditsActivity extends AppCompatActivity {
     FirebaseFunctions functions;
     ProgressBar loadingIcon;
     View background;
-
-    // Convert Python array to Java 2D array
-    private int[][] toJava2DArray(PyObject pyArray) {
-        int numRows = pyArray.callAttr("__len__").toInt();
-        int[][] javaArray = new int[numRows][];
-        for (int i = 0; i < numRows; i++) {
-            PyObject pyRow = pyArray.callAttr("__getitem__",i);
-            int numCols = pyRow.callAttr("__len__").toInt();
-            Log.d("numcols",String.valueOf(numCols));
-            javaArray[i] = new int[numCols];
-            for (int j = 0; j < numCols; j++) {
-                javaArray[i][j] = pyRow.callAttr("__getitem__",j).toInt();
-                Log.d("item",String.valueOf(pyRow.callAttr("__getitem__",j).toInt()));
-            }
-        }
-        return javaArray;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
