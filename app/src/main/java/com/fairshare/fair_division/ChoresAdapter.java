@@ -17,14 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 
-public class PplAdapter extends RecyclerView.Adapter<PplAdapter.ViewHolder> {
+public class ChoresAdapter extends RecyclerView.Adapter<ChoresAdapter.ViewHolder> {
     ArrayList<String> pplList;
     RecyclerView pplListView;
     EditText pplInput;
 
 
 
-    public PplAdapter(ArrayList<String> ppl) {
+    public ChoresAdapter(ArrayList<String> ppl) {
         pplList = ppl;
 
     }
@@ -58,13 +58,13 @@ public class PplAdapter extends RecyclerView.Adapter<PplAdapter.ViewHolder> {
 //                EditText pplInput;
 //            pplInput = view.findViewById(R.id.agent_name_input);
 
-            AlertDialog d = builder.setMessage("Edit the name of the agent").setTitle("Edit Agent").setIcon(R.drawable.ic_baseline_person_24).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            AlertDialog d = builder.setMessage("Edit the name of the chore").setTitle("Edit Chore").setIcon(R.drawable.ic_chores).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     pplInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
                     pplList.remove(holder.getAdapterPosition());
                     pplList.add(holder.getAdapterPosition(), String.valueOf(pplInput.getText()));
-                    pplListView.setAdapter(new PplAdapter(pplList));
+                    pplListView.setAdapter(new ChoresAdapter(pplList));
 
                 }
             }).setNegativeButton("Cancel", ((dialogInterface, i) -> {
@@ -76,7 +76,7 @@ public class PplAdapter extends RecyclerView.Adapter<PplAdapter.ViewHolder> {
 
             d.setOnShowListener(dialogInterface -> {
                 pplInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
-                pplInput.setHint("Agent Name");
+                pplInput.setHint("Chore Name");
                 pplInput.setText(pplList.get(holder.getAdapterPosition()));
 
             });
@@ -85,7 +85,7 @@ public class PplAdapter extends RecyclerView.Adapter<PplAdapter.ViewHolder> {
 
 
         });
-        
+
         ImageButton deleteAgent = holder.itemView.findViewById(R.id.deleteAgent);
         deleteAgent.setOnClickListener(new View.OnClickListener() {
             @Override

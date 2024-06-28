@@ -65,7 +65,6 @@
         android:fontFamily="@font/helvetica_light"
         android:textSize="20sp"
         android:textColor="@color/black"
-        android:background="@color/white"
         android:visibility="gone"
         android:layout_gravity="center"/>
     <Button

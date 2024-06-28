@@ -85,7 +85,7 @@ public class GoodsFragment extends Fragment {
                     }
                 }
                 goods.add(goodsInput.getText().toString().trim());
-                goodsList.setAdapter(new PplAdapter(goods));
+                goodsList.setAdapter(new GoodsAdapter(goods));
                 goodsList.setLayoutManager(new LinearLayoutManager(getContext()));
                 noGoods.setVisibility(View.GONE);
                 if(goods.size() >=2) {
