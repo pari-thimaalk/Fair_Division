@@ -33,7 +33,6 @@ import java.util.Objects;
 
 public class AllocateSessionFragment extends Fragment {
     private FloatingActionButton addItemButton;
-    private SharedPreferences sharedPreferences;
     private FirebaseFirestore firestore;
     private RecyclerView itemsList;
     private TextView creditsLeft;
@@ -65,8 +64,6 @@ public class AllocateSessionFragment extends Fragment {
         creditsLeft = view.findViewById(R.id.credits_left);
         itemsList.setAdapter(new ChoicesAdapter(new ArrayList<>(), creditsLeft));
         itemsList.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         firestore = FirebaseFirestore.getInstance();
         if(requireActivity().getIntent().getBooleanExtra("isOwner", false)) {
             addItemButton.setVisibility(View.VISIBLE);
