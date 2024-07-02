@@ -14,7 +14,18 @@
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@color/offwhite</item>
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="textAllCaps">false</item>
         <!--        <item name="android:background">@color/brightblue</item>-->
 
     </style>
+
+    <style name="Theme.Fair_Division.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Fair_Division.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Fair_Division.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

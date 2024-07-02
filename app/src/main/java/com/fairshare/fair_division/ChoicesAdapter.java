@@ -87,6 +87,11 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
 
     }
 
+    public void setDataset(ArrayList<String> newItems) {
+        goodsList = newItems;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return goodsList.size();

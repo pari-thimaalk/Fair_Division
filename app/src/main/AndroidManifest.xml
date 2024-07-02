@@ -13,6 +13,14 @@
         android:theme="@style/Theme.Fair_Division"
         tools:targetApi="31">
         <activity
+            android:name=".SessionActivity"
+            android:exported="false"
+            android:label="@string/title_activity_session"
+            android:theme="@style/Theme.Fair_Division.NoActionBar" />
+        <activity
+            android:name=".NewSessionActivity"
+            android:exported="false" />
+        <activity
             android:name=".AllocationActivity"
             android:exported="false"
             android:label="@string/title_activity_allocation"
@@ -31,17 +39,16 @@
         <activity
             android:name=".HomeChoiceActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
     </application>
 
 </manifest>

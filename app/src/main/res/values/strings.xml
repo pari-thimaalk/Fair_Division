@@ -7,4 +7,10 @@
     <string name="edit_a_good">Edit a Good</string>
     <string name="title_activity_add_credits">AddCreditsActivity</string>
     <string name="title_activity_allocation">AllocationActivity</string>
+    <string name="title_activity_session">SessionActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="session_status_text">Status</string>
+    <string name="session_details_text">Details</string>
+    <string name="allocate_items_text">Allocation</string>
 </resources>
