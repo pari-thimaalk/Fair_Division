@@ -227,6 +227,19 @@ public class CreditsActivity extends AppCompatActivity {
                     });
         }
 
+        if(agents == 3) {
+            return functions.getHttpsCallable("chores_3agents")
+                    .call(data)
+                    .addOnCompleteListener(task -> Log.d("Completed Chore Call 3 Agents", "done"))
+                    .continueWith(task -> {
+                        HashMap<String, Object> result = (HashMap<String, Object>) task.getResult().getData();
+                        assert result != null;
+                        return result;
+                    });
+
+
+        }
+
         return functions.getHttpsCallable("get_rr_allocation")
                 .call(data)
                 .addOnCompleteListener(task -> Log.d("Completed Chore Multi-Agent Call", "done"))
