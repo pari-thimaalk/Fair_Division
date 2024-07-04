@@ -44,6 +44,7 @@ public class CreditsActivity extends AppCompatActivity {
     static ArrayList<String> ppllist;
     static boolean isgood;
     Button calculateAlloc;
+    Button backBtn;
     AppDatabase db;
     CompositeDisposable disposable = new CompositeDisposable();
     AllocationDao allocationDao;
@@ -75,6 +76,7 @@ public class CreditsActivity extends AppCompatActivity {
 
         functions = FirebaseFunctions.getInstance();
         calculateAlloc = findViewById(R.id.calculateBtn);
+        backBtn = findViewById(R.id.backBtn2);
         loadingIcon = findViewById(R.id.loadingIcon);
         background = findViewById(R.id.blurBackground);
         db = Room.databaseBuilder(getApplicationContext(),
@@ -148,6 +150,10 @@ public class CreditsActivity extends AppCompatActivity {
 //                resultArray = toJava2DArray(rr_alloc.call(ppllist.size(), goodsList.size(), intArray));
             }
 
+        });
+
+        backBtn.setOnClickListener(view -> {
+            finish();
         });
 
         //if we are coming from addgoods activity, initialize preferences to be empty
