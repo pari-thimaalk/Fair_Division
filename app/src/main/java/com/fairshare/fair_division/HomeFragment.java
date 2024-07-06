@@ -2,6 +2,7 @@ package com.fairshare.fair_division;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,15 +24,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
 
 public class HomeFragment extends Fragment {
 
     private Button joinSessionButton, createSessionButton;
     private FirebaseFirestore firestore;
     private SharedPreferences sharedPreferences;
+    private String name, id;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -62,9 +67,43 @@ public class HomeFragment extends Fragment {
         createSessionButton = view.findViewById(R.id.create_session_button);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
+        if(sharedPreferences.getString("name", null) == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setView(R.layout.dialog_add_person);
+            AlertDialog nameDialog = builder.setMessage("Hi! Before we begin, we need a name.")
+                    .setTitle("What's Your Name?")
+                    .setIcon(R.drawable.ic_baseline_person_24)
+                    .setCancelable(false)
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+                            String newId = UUID.randomUUID().toString();
+                            sharedPreferences.edit().putString("id", newId).apply();
+                            id = newId;
+                            name = codeInput.getText().toString();
+
+
+                            sharedPreferences.edit().putString("name", name).apply();
+
+                        }
+                    }).create();
+            nameDialog.setOnShowListener(dialogInterface -> {
+                EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+                codeInput.setHint("Your Name");
+            });
+
+            nameDialog.show();
+
+        } else {
+            id = sharedPreferences.getString("id", null);
+            name = sharedPreferences.getString("name", null);
+        }
+
+
 
         createSessionButton.setOnClickListener(v -> {
-            SessionCreationSheetFragment sessionCreationSheetFragment = new SessionCreationSheetFragment();
+            SessionCreationSheetFragment sessionCreationSheetFragment = new SessionCreationSheetFragment(id, name);
             sessionCreationSheetFragment.show(getChildFragmentManager(), "SessionCreationSheetFragment");
         });
 
@@ -87,10 +126,15 @@ public class HomeFragment extends Fragment {
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         if(documentSnapshot.exists()) {
                                             //TODO: Add user to session
-                                            Intent intent = new Intent(requireContext(), SessionActivity.class);
-                                            intent.putExtra("sessionCode", codeInput.getText().toString());
-                                            intent.putExtra("isOwner", false);
-                                            startActivity(intent);
+                                            firestore.collection("sessions").document(codeInput.getText().toString())
+                                                    .update("users." + id, name)
+                                                    .addOnSuccessListener(unused -> {
+                                                        Intent intent = new Intent(requireContext(), SessionActivity.class);
+                                                        intent.putExtra("sessionCode", codeInput.getText().toString());
+                                                        intent.putExtra("isOwner", false);
+                                                        intent.putExtra("userId", id);
+                                                        startActivity(intent);
+                                                    });
 
 
                                         } else {

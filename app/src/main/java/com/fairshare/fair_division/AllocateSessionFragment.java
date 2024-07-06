@@ -71,19 +71,19 @@ public class AllocateSessionFragment extends Fragment {
             addItemButton.setVisibility(View.GONE);
         }
 
-        firestore.collection("sessions")
-                .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(value != null && value.exists()) {
-
-                            ((ChoicesAdapter) Objects.requireNonNull(itemsList.getAdapter())).setDataset((ArrayList<String>) value.get("items"));
-
-                        }
-
-                    }
-                });
+//        firestore.collection("sessions")
+//                .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
+//                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                        if(value != null && value.exists()) {
+//
+//                            ((ChoicesAdapter) Objects.requireNonNull(itemsList.getAdapter())).setDataset((ArrayList<String>) value.get("items"));
+//
+//                        }
+//
+//                    }
+//                });
 
         addItemButton.setOnClickListener((v) -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());

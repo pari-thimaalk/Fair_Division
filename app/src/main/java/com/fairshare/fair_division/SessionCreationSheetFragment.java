@@ -15,9 +15,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class SessionCreationSheetFragment extends BottomSheetDialogFragment {
 
     private RecyclerView optionsList;
+    private final String id, name;
 
 
-    public SessionCreationSheetFragment() {
+    public SessionCreationSheetFragment(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
 
@@ -35,7 +38,7 @@ public class SessionCreationSheetFragment extends BottomSheetDialogFragment {
         // Initialize your UI components here
 
         optionsList = view.findViewById(R.id.options_list);
-        optionsList.setAdapter(new SessionChoiceAdapter(this));
+        optionsList.setAdapter(new SessionChoiceAdapter(this, id, name));
         optionsList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
     }

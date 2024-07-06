@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +28,13 @@ import java.util.Map;
 
 public class SessionChoiceAdapter extends RecyclerView.Adapter<SessionChoiceAdapter.ViewHolder> {
     private final SessionCreationSheetFragment bottomSheet;
+    private final String id, name;
     private SharedPreferences sharedPreferences;
 
-    public SessionChoiceAdapter(SessionCreationSheetFragment bottomSheet) {
+    public SessionChoiceAdapter(SessionCreationSheetFragment bottomSheet, String id, String name) {
         this.bottomSheet = bottomSheet;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(bottomSheet.requireContext());
+        this.id = id;
+        this.name = name;
 
     }
 
@@ -61,14 +64,17 @@ public class SessionChoiceAdapter extends RecyclerView.Adapter<SessionChoiceAdap
 
 
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            Map<String, String> users = new HashMap<>();
+            users.put(id, name);
 
             Map<String, Object> data = new HashMap<>();
             data.put("created", new Timestamp(new Date()));
             data.put("allocation", new HashMap<>());
-            data.put("users", new ArrayList<>()); //TODO: Add owner in list to start
+            data.put("users", users); //TODO: Add owner in list to start
             data.put("items", new ArrayList<>());
-            data.put("owner", "Owner Name");
+            data.put("owner", id);
             data.put("type", position);
+            data.put("finished", new ArrayList<>());
 
 
             firestore.collection("sessions").add(data)
@@ -76,6 +82,8 @@ public class SessionChoiceAdapter extends RecyclerView.Adapter<SessionChoiceAdap
                         Intent intent = new Intent(v.getContext(), SessionActivity.class);
                         intent.putExtra("sessionCode", documentReference.getId());
                         intent.putExtra("isOwner", true);
+                        intent.putExtra("userId", id);
+
                         v.getContext().startActivity(intent);
 
                     });
