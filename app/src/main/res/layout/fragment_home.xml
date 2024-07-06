@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/join_session_button"
-        android:text="  Join Existing Session"
+        android:text="   Join Existing Session "
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
         android:textAllCaps="false"
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/create_session_button"
-        android:text="   Create New Session"
+        android:text="    Create New Session  "
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
         android:padding="10sp"
@@ -56,6 +56,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:drawableStart="@drawable/group_add_24dp__1_"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_local_button"
+        android:text="   Create Local Session "
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:padding="10sp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/create_session_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawableStart="@drawable/wifi_off_24dp_000000"/>
 
 
 
