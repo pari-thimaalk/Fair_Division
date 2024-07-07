@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.Objects;
 
 public class SessionDetailsFragment extends Fragment {
-    private TextView sessionCode;
+    private TextView sessionCode, infoText;
 
     public SessionDetailsFragment() {
         // Required empty public constructor
@@ -38,7 +38,14 @@ public class SessionDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionCode = view.findViewById(R.id.session_code_text);
+        infoText = view.findViewById(R.id.information_text);
         sessionCode.setText(requireActivity().getIntent().getStringExtra("sessionCode"));
+        if(requireActivity().getIntent().getIntExtra("type", -1) == 0) {
+            infoText.setText(R.string.goods_info);
+        } else if(requireActivity().getIntent().getIntExtra("type", -1) == 1) {
+            infoText.setText(R.string.chores_info);
+
+        }
 
     }
 }

@@ -29,8 +29,12 @@ import java.util.Map;
 public class SessionChoiceAdapter extends RecyclerView.Adapter<SessionChoiceAdapter.ViewHolder> {
     private final SessionCreationSheetFragment bottomSheet;
     private final String id, name;
-    private SharedPreferences sharedPreferences;
 
+
+    public SessionChoiceAdapter(SessionCreationSheetFragment bottomSheet) {
+        this.bottomSheet = bottomSheet;
+        id = name = null;
+    }
     public SessionChoiceAdapter(SessionCreationSheetFragment bottomSheet, String id, String name) {
         this.bottomSheet = bottomSheet;
         this.id = id;
@@ -59,34 +63,47 @@ public class SessionChoiceAdapter extends RecyclerView.Adapter<SessionChoiceAdap
         }
 
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Clicked " + position, Toast.LENGTH_SHORT).show();
             bottomSheet.dismiss();
 
+            if(id != null) {
+                FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                Map<String, String> users = new HashMap<>();
+                users.put(id, name);
 
-            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-            Map<String, String> users = new HashMap<>();
-            users.put(id, name);
-
-            Map<String, Object> data = new HashMap<>();
-            data.put("created", new Timestamp(new Date()));
-            data.put("allocation", new HashMap<>());
-            data.put("users", users); //TODO: Add owner in list to start
-            data.put("items", new ArrayList<>());
-            data.put("owner", id);
-            data.put("type", position);
-            data.put("finished", new ArrayList<>());
+                Map<String, Object> data = new HashMap<>();
+                data.put("created", new Timestamp(new Date()));
+                data.put("allocation", new HashMap<>());
+                data.put("users", users); //TODO: Add owner in list to start
+                data.put("items", new ArrayList<>());
+                data.put("owner", id);
+                data.put("type", position);
+                data.put("finished", new ArrayList<>());
 
 
-            firestore.collection("sessions").add(data)
-                    .addOnSuccessListener(documentReference -> {
-                        Intent intent = new Intent(v.getContext(), SessionActivity.class);
-                        intent.putExtra("sessionCode", documentReference.getId());
-                        intent.putExtra("isOwner", true);
-                        intent.putExtra("userId", id);
+                firestore.collection("sessions").add(data)
+                        .addOnSuccessListener(documentReference -> {
+                            Intent intent = new Intent(v.getContext(), SessionActivity.class);
+                            intent.putExtra("sessionCode", documentReference.getId());
+                            intent.putExtra("isOwner", true);
+                            intent.putExtra("userId", id);
+                            intent.putExtra("type", position);
 
-                        v.getContext().startActivity(intent);
+                            v.getContext().startActivity(intent);
 
-                    });
+                        });
+            } else {
+                if(holder.getAdapterPosition() == 0) {
+                    Intent i  = new Intent(v.getContext(), GoodsActivity.class);
+                    v.getContext().startActivity(i);
+                } else {
+                    Intent i = new Intent(v.getContext(), ChoresActivity.class);
+                    v.getContext().startActivity(i);
+                }
+
+            }
+
+
+
 
 
         });

@@ -1,110 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".HomeChoiceActivity">
 
-    <FrameLayout
-        android:id="@+id/layout_frame"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom_nav_menu"
-        android:background="?android:attr/windowBackground"/>
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/title_bar">
 
-</LinearLayout>
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    tools:context=".HomeChoiceActivity">-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_fairshare"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FairShare"
+            android:fontFamily="@font/helvetica_bold"
+            android:layout_gravity="center_horizontal"
+            android:padding="20sp"
+            android:textSize="30sp"/>
 
-<!--&lt;!&ndash;    <TextView&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/testView"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_width="268dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_centerHorizontal="true"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginTop="56dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:text="@string/info_text"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:textAlignment="center"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:textSize="15sp"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintHorizontal_bias="0.496"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
+    </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/join_session_button"
+        android:text="   Join Existing Session "
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/title_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawableStart="@drawable/vpn_key_24dp"/>
 
-<!--    <FrameLayout-->
-<!--        android:id="@+id/layout_frame"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="1"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.0" />-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_session_button"
+        android:text="    Create New Session  "
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:padding="10sp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/join_session_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawableStart="@drawable/group_add_24dp__1_"/>
 
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--            android:id="@+id/bottom_nav"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@+id/layout_frame"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_marginTop="676dp"-->
-<!--            android:layout_marginBottom="-1dp"-->
-<!--            android:background="?android:attr/windowBackground"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layout_frame"-->
-<!--            app:layout_constraintVertical_bias="1.0"-->
-<!--            app:menu="@menu/bottom_nav_menu"-->
-<!--            tools:layout_editor_absoluteX="0dp" />-->
-
-
-    <!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="52dp"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/testView">-->
-
-<!--        <Button-->
-<!--            android:id="@+id/greenButton"-->
-<!--            android:layout_width="146dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:layout_marginBottom="16dp"-->
-<!--            android:background="#4CAF50"-->
-<!--            android:text="Split Goods"-->
-<!--            android:textColor="@android:color/white" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/redButton"-->
-<!--            android:layout_width="158dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="59dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:layout_marginBottom="16dp"-->
-<!--            android:layout_toEndOf="@+id/greenButton"-->
-<!--            android:background="@color/red"-->
-<!--            android:text="Split Chores"-->
-<!--            android:textColor="@android:color/white" />-->
-
-<!--    </RelativeLayout>-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_local_button"
+        android:text="   Create Local Session "
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:padding="10sp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/create_session_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawableStart="@drawable/wifi_off_24dp_000000"/>
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

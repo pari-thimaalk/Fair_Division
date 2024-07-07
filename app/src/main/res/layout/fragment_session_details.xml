@@ -32,5 +32,26 @@
         android:layout_marginTop="15sp"
         android:textIsSelectable="true"/>
 
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/divider"
+        android:backgroundTint="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/session_code_text"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="20sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        android:id="@+id/information_text"
+        android:layout_marginStart="20sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginTop="20sp"
+
+        android:textSize="20sp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

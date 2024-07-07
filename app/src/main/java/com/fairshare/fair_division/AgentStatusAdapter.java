@@ -12,22 +12,33 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
 public class AgentStatusAdapter extends RecyclerView.Adapter<AgentStatusAdapter.ViewHolder> {
     private ArrayList<String> agentsList, idList;
     private String ownerId, userId;
+    private SessionStatusFragment instance;
 
 
-    public AgentStatusAdapter(ArrayList<String> agents, ArrayList<String> ids, String owner, String currentUser) {
+    public AgentStatusAdapter(ArrayList<String> agents,
+                              ArrayList<String> ids,
+                              String owner,
+                              String currentUser,
+                              SessionStatusFragment fragment) {
         agentsList = agents;
         ownerId = owner;
         idList = ids;
         userId = currentUser;
+        instance = fragment;
 
     }
+
+    public interface UserRemovedListener {
+        void onUserRemoved(String id);
+
+    }
+
     public void setDataset(ArrayList<String> names, ArrayList<String> ids) {
         agentsList = names;
         idList = ids;
@@ -51,6 +62,17 @@ public class AgentStatusAdapter extends RecyclerView.Adapter<AgentStatusAdapter.
         }
         if(userId.equals(ownerId) && !idList.get(position).equals(userId)) {
             holder.getButton().setVisibility(View.VISIBLE);
+
+            holder.getButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    idList.remove(holder.getAdapterPosition());
+//                    agentsList.remove(holder.getAdapterPosition());
+//                    notifyItemRemoved(holder.getAdapterPosition());
+                    instance.onUserRemoved(idList.get(holder.getAdapterPosition()));
+
+                }
+            });
         }
 
     }

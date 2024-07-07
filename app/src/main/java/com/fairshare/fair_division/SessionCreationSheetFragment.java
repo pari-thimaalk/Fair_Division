@@ -17,13 +17,16 @@ public class SessionCreationSheetFragment extends BottomSheetDialogFragment {
     private RecyclerView optionsList;
     private final String id, name;
 
+    public SessionCreationSheetFragment() {
+        id = null;
+        name = null;
+    }
+
 
     public SessionCreationSheetFragment(String id, String name) {
         this.id = id;
         this.name = name;
     }
-
-
 
 
     @Nullable
@@ -38,9 +41,13 @@ public class SessionCreationSheetFragment extends BottomSheetDialogFragment {
         // Initialize your UI components here
 
         optionsList = view.findViewById(R.id.options_list);
-        optionsList.setAdapter(new SessionChoiceAdapter(this, id, name));
-        optionsList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        optionsList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        if(id != null) {
+            optionsList.setAdapter(new SessionChoiceAdapter(this, id, name));
+        } else {
+            optionsList.setAdapter(new SessionChoiceAdapter(this));
+        }
     }
 
 

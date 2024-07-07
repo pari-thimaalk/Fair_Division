@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 
-public class SessionStatusFragment extends Fragment {
+public class SessionStatusFragment extends Fragment implements AgentStatusAdapter.UserRemovedListener {
 
     private FirebaseFirestore firestore;
     private RecyclerView agentsList;
@@ -87,16 +88,23 @@ public class SessionStatusFragment extends Fragment {
                                 agentsList.setAdapter(
                                         new AgentStatusAdapter(
                                         names, ids, (String) value.get("owner"),
-                                        requireActivity().getIntent().getStringExtra("userId")));
+                                        requireActivity().getIntent().getStringExtra("userId"),
+                                SessionStatusFragment.this));
                             } else {
                                 ((AgentStatusAdapter)agentsList.getAdapter()).setDataset(names, ids);
                             }
-
 
                         }
 
                     }
                 });
 
+    }
+
+    @Override
+    public void onUserRemoved(String id) {
+        firestore.collection("sessions")
+                .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
+                .update("users." + id, FieldValue.delete());
     }
 }

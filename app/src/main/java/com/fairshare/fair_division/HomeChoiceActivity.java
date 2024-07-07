@@ -1,148 +1,181 @@
 package com.fairshare.fair_division;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.preference.PreferenceManager;
-
-import android.util.Log;
-import android.view.MenuItem;
-
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.room.Room;
+import androidx.preference.PreferenceManager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import java.util.Objects;
+import java.util.UUID;
 
 public class HomeChoiceActivity extends AppCompatActivity {
 
-    int frag = 1;
-    FirebaseFirestore firestore;
-    AppDatabase db;
-    AllocationDao dao;
-    SharedPreferences sharedPreferences;
-    int lastPushed;
-    private final CompositeDisposable mDisposable = new CompositeDisposable();
+    private Button joinSessionButton, createSessionButton, localSessionButton;
+    private FirebaseFirestore firestore;
+    private SharedPreferences sharedPreferences;
+    private String name, id;
+    private ActivityResultLauncher<Intent> launcher;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_choice);
-
-        //INSERT FRAGMENTS HERE
-        BottomNavigationView nav = findViewById(R.id.bottom_nav);
-        nav.setOnItemSelectedListener(navlistener);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "allocations")
-                .fallbackToDestructiveMigration()
-                .build();
-        dao = db.allocationDao();
         firestore = FirebaseFirestore.getInstance();
-        lastPushed = sharedPreferences.getInt("lastAlloc", 1);
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult o) {
+                        if(o.getResultCode() == 0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeChoiceActivity.this);
+// Add the buttons.
+                            builder.setTitle("User Removed")
+                                    .setMessage("You have been kicked from the session.")
+                                    .setIcon(R.drawable.person_remove_24dp_000000)
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
-        Log.d("Last Pushed", String.valueOf(lastPushed));
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User taps OK button.
 
-        mDisposable.add(dao.getAllocationSessionsAsync(lastPushed).subscribeOn(Schedulers.io()).subscribe((a) ->
-        { if(!a.isEmpty()) {
-            handleDbCompleted(a);
-        } else {
-            Log.d("Empty List", "empty");
-        }
-            }, Throwable::printStackTrace));
+                                        }
+                                    });
 
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
 
-        if (frag == 0) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frame, new GoodsFragment()).commit();
-        } else if (frag == 1) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frame, new HomeFragment()).commit();
-        } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frame, new ChoresFragment()).commit();
-        }
-        nav.setSelectedItemId(R.id.home_lp);
-    }
-
-    private BottomNavigationView.OnItemSelectedListener navlistener =
-            new NavigationBarView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedfrag = null;
-
-                    switch (item.getItemId()) {
-                        case R.id.goods_lp:
-                            selectedfrag = new GoodsFragment();
-                            frag = 0;
-                            break;
-                        case R.id.home_lp:
-                            selectedfrag = new HomeFragment();
-                            frag = 1;
-                            break;
-                        case R.id.chores_lp:
-                            selectedfrag = new ChoresFragment();
-                            frag = 2;
-                            break;
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.layout_frame, selectedfrag).commit();
-                    return true;
-                }
+                });
 
-            };
+        joinSessionButton = findViewById(R.id.join_session_button);
+        createSessionButton = findViewById(R.id.create_session_button);
+        localSessionButton = findViewById(R.id.create_local_button);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-    private void handleDbCompleted(List<String> sessions) {
-        int lastPushedCounter = lastPushed;
-        for(String sess : sessions) {
-            int isGood = -1;
-            List<String> agents = dao.getAgentsFromSession(sess);
-            Map<String, Object> agentData = new HashMap<>();
-            for(String agent : agents) {
-                Map<String, Integer> allocData = new HashMap<>();
-                List<Allocation> allocations = dao.getAllocationsforAgent(sess, agent);
-                for(Allocation alloc : allocations) {
-                    allocData.put(alloc.getGoodName(), alloc.getCredits());
-                    if(isGood == -1) {
-                        isGood = (alloc.getIsGood()) ? 1 : 0;
-                    }
-                }
-                agentData.put(agent, allocData);
+        if(sharedPreferences.getString("name", null) == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(R.layout.dialog_add_person);
+            AlertDialog nameDialog = builder.setMessage("Hi! Before we begin, we need a name.")
+                    .setTitle("What's Your Name?")
+                    .setIcon(R.drawable.ic_baseline_person_24)
+                    .setCancelable(false)
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+                            String newId = UUID.randomUUID().toString();
+                            sharedPreferences.edit().putString("id", newId).apply();
+                            id = newId;
+                            name = codeInput.getText().toString();
 
-            }
-//            Map<String, Object> allocData = new HashMap<>();
-//            List<Allocation> allocationList = dao.getAllocationsSync(sess);
-//
-//            int counter = 1;
-//            for (Allocation alloc : allocationList) {
-//                ArrayList<Object> allocList = new ArrayList<>();
-//                allocList.add(alloc.getPersonName());
-//                allocList.add(alloc.getGoodName());
-//                allocList.add(alloc.getCredits());
-//                allocList.add(alloc.getIsGood());
-//                Log.d("Alloc", String.valueOf(allocList));
-//                allocData.put("alloc" + counter, allocList);
-//
-//                counter++;
-//                lastPushedCounter++;
-//            }
-            if(isGood == 1) {
-                agentData.put("isGood", true);
-            } else {
-                agentData.put("isGood", false);
-            }
 
-            firestore.collection("allocations").document("Session " + sess).set(agentData);
+                            sharedPreferences.edit().putString("name", name).apply();
 
+                        }
+                    }).create();
+            nameDialog.setOnShowListener(dialogInterface -> {
+                EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+                codeInput.setHint("Your Name");
+            });
+
+            nameDialog.show();
+
+        } else {
+            id = sharedPreferences.getString("id", null);
+            name = sharedPreferences.getString("name", null);
         }
 
-        sharedPreferences.edit().putInt("lastAlloc", lastPushedCounter).apply();
+
+
+        createSessionButton.setOnClickListener(v -> {
+            SessionCreationSheetFragment sessionCreationSheetFragment = new SessionCreationSheetFragment(id, name);
+            sessionCreationSheetFragment.show(getSupportFragmentManager(), "SessionCreationSheetFragment");
+        });
+
+        localSessionButton.setOnClickListener(v -> {
+            SessionCreationSheetFragment sessionCreationSheetFragment = new SessionCreationSheetFragment();
+            sessionCreationSheetFragment.show(getSupportFragmentManager(), "LocalSessionCreation");
+
+
+        });
+
+        joinSessionButton.setOnClickListener(v -> {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeChoiceActivity.this);
+            builder.setView(R.layout.dialog_add_person);
+
+            AlertDialog enterCode = builder
+                    .setMessage("Input the session code provided by the room owner. It should be a 20-character string.")
+                    .setTitle("Enter Session Code")
+                    .setIcon(R.drawable.link_24dp)
+                    .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                        EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+                        firestore.collection("sessions")
+                                .document(codeInput.getText().toString())
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if(documentSnapshot.exists()) {
+                                            //TODO: Add user to session
+                                            firestore.collection("sessions").document(codeInput.getText().toString())
+                                                    .update("users." + id, name)
+                                                    .addOnSuccessListener(unused -> {
+
+                                                        Intent intent = new Intent(HomeChoiceActivity.this, SessionActivity.class);
+                                                        intent.putExtra("sessionCode", codeInput.getText().toString());
+                                                        intent.putExtra("isOwner", false);
+                                                        intent.putExtra("userId", id);
+                                                        launcher.launch(intent);
+                                                    });
+
+
+                                        } else {
+                                            Snackbar.make(v, "The code is invalid!", BaseTransientBottomBar.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                });})
+                    .setNegativeButton("Cancel", ((dialogInterface, i) -> {}))
+                    .create();
+
+            enterCode.setOnShowListener(dialogInterface -> {
+                EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+                codeInput.setHint("Session Code");
+            });
+
+            enterCode.show();
+
+        });
+
     }
 
 }

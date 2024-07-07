@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Fair_Division</string>
-    <string name="info_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae turpis massa sed elementum tempus egestas. Sit amet commodo nulla facilisi nullam. Non curabitur gravida arcu ac tortor dignissim. Amet nisl purus in mollis nunc sed id semper risus. Mauris pellentesque pulvinar pellentesque habitant morbi. Auctor neque vitae tempus quam. Suspendisse in est ante in nibh mauris cursus mattis molestie. Eget lorem dolor sed viverra ipsum nunc aliquet. Vitae congue mauris rhoncus aenean. Semper auctor neque vitae tempus quam pellentesque nec nam aliquam. Ut consequat semper viverra nam libero justo laoreet. Sit amet tellus cras adipiscing enim. Convallis tellus id interdum velit laoreet id donec ultrices.</string>
-    <!-- TODO: Remove or change this placeholder text -->
+<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_a_good">Delete a Good</string>
     <string name="edit_a_good">Edit a Good</string>
@@ -13,4 +12,7 @@
     <string name="session_status_text">Status</string>
     <string name="session_details_text">Details</string>
     <string name="allocate_items_text">Allocation</string>
+    <string name="goods_info">When allocating goods, remember to give <b>more</b> credits to goods you value more! Currently, our algorithm meets fairness requirements for an <b>unlimited</b> number of agents and goods.</string>
+    <string name="chores_info">When allocating chores, remember to give <b>fewer</b> credits to chores you find easier and are more willing to do! Currently, our algorithm guarantees fairness for up to <b>3 agents</b> with an unlimited number of chores. While we still provide allocations for greater than 3 agents, certain fairness requirements will <b>not</b> be met.</string>
+
 </resources>
