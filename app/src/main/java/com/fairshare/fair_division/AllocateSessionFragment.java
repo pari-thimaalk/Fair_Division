@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class AllocateSessionFragment extends Fragment {
-    private FloatingActionButton addItemButton;
     private FirebaseFirestore firestore;
     private RecyclerView itemsList;
     private TextView creditsLeft;
@@ -59,17 +58,12 @@ public class AllocateSessionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        addItemButton = view.findViewById(R.id.add_item_button);
         itemsList = view.findViewById(R.id.items_list);
         creditsLeft = view.findViewById(R.id.credits_left);
         itemsList.setAdapter(new ChoicesAdapter(new ArrayList<>(), creditsLeft));
         itemsList.setLayoutManager(new LinearLayoutManager(requireContext()));
         firestore = FirebaseFirestore.getInstance();
-        if(requireActivity().getIntent().getBooleanExtra("isOwner", false)) {
-            addItemButton.setVisibility(View.VISIBLE);
-        } else {
-            addItemButton.setVisibility(View.GONE);
-        }
+
 
 //        firestore.collection("sessions")
 //                .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
@@ -85,32 +79,32 @@ public class AllocateSessionFragment extends Fragment {
 //                    }
 //                });
 
-        addItemButton.setOnClickListener((v) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            builder.setView(R.layout.dialog_add_person);
-
-            AlertDialog enterCode = builder
-                    .setMessage("Add an item that needs to be allocated.")
-                    .setIcon(R.drawable.cookie_black_24dp)
-                    .setPositiveButton("Confirm", (dialogInterface, i) -> {
-                        EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
-                        items.add(codeInput.getText().toString());
-
-                        firestore.collection("sessions")
-                                .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
-                                .update("items", items)
-
-                                ;})
-                    .setNegativeButton("Cancel", ((dialogInterface, i) -> {}))
-                    .create();
-
-            enterCode.setOnShowListener(dialogInterface -> {
-                EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
-                codeInput.setHint("Item Name");
-            });
-
-            enterCode.show();
-        });
+//        addItemButton.setOnClickListener((v) -> {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//            builder.setView(R.layout.dialog_add_person);
+//
+//            AlertDialog enterCode = builder
+//                    .setMessage("Add an item that needs to be allocated.")
+//                    .setIcon(R.drawable.cookie_black_24dp)
+//                    .setPositiveButton("Confirm", (dialogInterface, i) -> {
+//                        EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+//                        items.add(codeInput.getText().toString());
+//
+//                        firestore.collection("sessions")
+//                                .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
+//                                .update("items", items)
+//
+//                                ;})
+//                    .setNegativeButton("Cancel", ((dialogInterface, i) -> {}))
+//                    .create();
+//
+//            enterCode.setOnShowListener(dialogInterface -> {
+//                EditText codeInput = ((Dialog) dialogInterface).findViewById(R.id.agent_name_input);
+//                codeInput.setHint("Item Name");
+//            });
+//
+//            enterCode.show();
+//        });
 
     }
 }

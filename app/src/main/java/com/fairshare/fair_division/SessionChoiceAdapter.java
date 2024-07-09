@@ -66,31 +66,11 @@ public class SessionChoiceAdapter extends RecyclerView.Adapter<SessionChoiceAdap
             bottomSheet.dismiss();
 
             if(id != null) {
-                FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                Map<String, String> users = new HashMap<>();
-                users.put(id, name);
-
-                Map<String, Object> data = new HashMap<>();
-                data.put("created", new Timestamp(new Date()));
-                data.put("allocation", new HashMap<>());
-                data.put("users", users); //TODO: Add owner in list to start
-                data.put("items", new ArrayList<>());
-                data.put("owner", id);
-                data.put("type", position);
-                data.put("finished", new ArrayList<>());
-
-
-                firestore.collection("sessions").add(data)
-                        .addOnSuccessListener(documentReference -> {
-                            Intent intent = new Intent(v.getContext(), SessionActivity.class);
-                            intent.putExtra("sessionCode", documentReference.getId());
-                            intent.putExtra("isOwner", true);
-                            intent.putExtra("userId", id);
-                            intent.putExtra("type", position);
-
-                            v.getContext().startActivity(intent);
-
-                        });
+                Intent i = new Intent(v.getContext(), AddItemsActivity.class);
+                i.putExtra("type", position);
+                i.putExtra("id", id);
+                i.putExtra("name", name);
+                v.getContext().startActivity(i);
             } else {
                 if(holder.getAdapterPosition() == 0) {
                     Intent i  = new Intent(v.getContext(), GoodsActivity.class);

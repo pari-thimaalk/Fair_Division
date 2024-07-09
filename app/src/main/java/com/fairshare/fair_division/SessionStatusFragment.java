@@ -62,7 +62,6 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
         super.onViewCreated(view, savedInstanceState);
         agentsList = view.findViewById(R.id.agentsList);
         agentsList.setLayoutManager(new LinearLayoutManager(requireContext()));
-        finishedAllocationText = view.findViewById(R.id.finished_allocating_text);
         inSessionText = view.findViewById(R.id.in_session_text);
 
         firestore.collection("sessions")
@@ -74,6 +73,7 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
                             ArrayList<String> names = new ArrayList<>();
                             ArrayList<String> ids = new ArrayList<>();
                             HashMap<String, String> users = (HashMap<String, String>) value.get("users");
+
                             assert users != null;
                             inSessionText.setText("In Session (" + users.size() + "):");
 

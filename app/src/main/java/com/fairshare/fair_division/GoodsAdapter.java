@@ -2,6 +2,7 @@ package com.fairshare.fair_division;
 
 import android.app.Dialog;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -20,11 +21,21 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
     ArrayList<String> goodList;
     RecyclerView goodListView;
     EditText goodInput;
+    MenuItem doneBtn;
 
 
 
     public GoodsAdapter(ArrayList<String> ppl) {
         goodList = ppl;
+
+    }
+
+    public GoodsAdapter(ArrayList<String> ppl, MenuItem doneBtn) {
+        goodList = ppl;
+        this.doneBtn = doneBtn;
+        if(goodList.size() > 1) {
+            doneBtn.setVisible(true);
+        }
 
     }
 
@@ -86,13 +97,14 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         });
 
         ImageButton deleteAgent = holder.itemView.findViewById(R.id.deleteAgent);
-        deleteAgent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goodList.remove(holder.getAdapterPosition());
-                goodListView.setAdapter(new GoodsAdapter(goodList));
-                Toast.makeText(view.getContext(), "Deleted successfully", Toast.LENGTH_SHORT).show();
+        deleteAgent.setOnClickListener(view -> {
+            goodList.remove(holder.getAdapterPosition());
+            goodListView.setAdapter(new GoodsAdapter(goodList));
+            if (goodList.size() < 2) {
+
+                doneBtn.setVisible(false);
             }
+            Toast.makeText(view.getContext(), "Deleted successfully", Toast.LENGTH_SHORT).show();
         });
 
     }
