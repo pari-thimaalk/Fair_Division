@@ -221,6 +221,8 @@ def chores_3agents(req: https_fn.CallableRequest):
     num_agents = 3
     num_items = req.data['chores']
     valuation_matrix = req.data['values']
+    print(f'Num Items: {num_items}')
+    print(f'Val Matrix: {valuation_matrix}')
 
     """HELPER METHOD"""
     def IS_EF1(num_agents, allocation, valuation_matrix):
