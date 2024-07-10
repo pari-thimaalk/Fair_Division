@@ -19,9 +19,16 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
     ArrayList<String> goodsList;
     Integer credits_remaining;
     TextView credits_rm;
+    AllocateSessionFragment fragment;
 
     public Integer getCredits_remaining(){
         return credits_remaining;
+    }
+
+    public interface AllocationChangedListener {
+        void onAllocationDone();
+
+        void onAllocationNotDone();
     }
 
     public ChoicesAdapter(ArrayList<String> goods, TextView crm) {
@@ -29,6 +36,15 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
         credits_remaining = 100;
         credits_rm = crm;
         credits_rm.setText("Credits remaining: "+credits_remaining);
+    }
+
+    public ChoicesAdapter(ArrayList<String> goods, TextView crm, AllocateSessionFragment instance) {
+        goodsList = goods;
+        credits_remaining = 100;
+        credits_rm = crm;
+        credits_rm.setText("Credits remaining: " + credits_remaining);
+        fragment = instance;
+
     }
     @NonNull
     @Override
@@ -75,12 +91,17 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
                 if(charSequence.length() > 0){
                     credits_remaining -= Integer.parseInt(charSequence.toString());
                     Log.d("Credits remaining",String.valueOf(credits_remaining));
-                    credits_rm.setText("Credits left: "+ String.valueOf(credits_remaining));
+                    credits_rm.setText("Credits left: "+ credits_remaining);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                if(credits_remaining != 0) {
+                    fragment.onAllocationNotDone();
+                } else {
+                    fragment.onAllocationDone();
+                }
 
             }
         });

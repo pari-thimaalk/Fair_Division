@@ -31,11 +31,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AllocateSessionFragment extends Fragment {
+public class AllocateSessionFragment extends Fragment implements ChoicesAdapter.AllocationChangedListener {
     private FirebaseFirestore firestore;
     private RecyclerView itemsList;
     private TextView creditsLeft;
-    private ArrayList<String> items = new ArrayList<>();
+    private FloatingActionButton uploadButton;
 
     public AllocateSessionFragment() {
         // Required empty public constructor
@@ -58,9 +58,11 @@ public class AllocateSessionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         itemsList = view.findViewById(R.id.items_list);
+        uploadButton = view.findViewById(R.id.upload_allocation_button);
         creditsLeft = view.findViewById(R.id.credits_left);
-        itemsList.setAdapter(new ChoicesAdapter(requireActivity().getIntent().getStringArrayListExtra("items"), creditsLeft));
+        itemsList.setAdapter(new ChoicesAdapter(requireActivity().getIntent().getStringArrayListExtra("items"), creditsLeft, this));
         itemsList.setLayoutManager(new LinearLayoutManager(requireContext()));
         firestore = FirebaseFirestore.getInstance();
 
@@ -105,6 +107,17 @@ public class AllocateSessionFragment extends Fragment {
 //
 //            enterCode.show();
 //        });
+
+    }
+
+    @Override
+    public void onAllocationDone() {
+        uploadButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onAllocationNotDone() {
+        uploadButton.setVisibility(View.GONE);
 
     }
 }
