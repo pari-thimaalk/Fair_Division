@@ -105,6 +105,8 @@ public class AddItemsActivity extends AppCompatActivity {
                         intent.putExtra("isOwner", true);
                         intent.putExtra("userId", id);
                         intent.putExtra("type", position);
+                        intent.putStringArrayListExtra("items", items);
+
 
                         startActivity(intent);
                         finish();

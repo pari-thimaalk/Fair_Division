@@ -60,7 +60,7 @@ public class AllocateSessionFragment extends Fragment {
 
         itemsList = view.findViewById(R.id.items_list);
         creditsLeft = view.findViewById(R.id.credits_left);
-        itemsList.setAdapter(new ChoicesAdapter(new ArrayList<>(), creditsLeft));
+        itemsList.setAdapter(new ChoicesAdapter(requireActivity().getIntent().getStringArrayListExtra("items"), creditsLeft));
         itemsList.setLayoutManager(new LinearLayoutManager(requireContext()));
         firestore = FirebaseFirestore.getInstance();
 
