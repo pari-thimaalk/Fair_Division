@@ -17,12 +17,14 @@ import java.util.ArrayList;
 
 public class AgentStatusAdapter extends RecyclerView.Adapter<AgentStatusAdapter.ViewHolder> {
     private ArrayList<String> agentsList, idList;
+    private ArrayList<Boolean> finishedList;
     private String ownerId, userId;
     private SessionStatusFragment instance;
 
 
     public AgentStatusAdapter(ArrayList<String> agents,
                               ArrayList<String> ids,
+                              ArrayList<Boolean> areFinished,
                               String owner,
                               String currentUser,
                               SessionStatusFragment fragment) {
@@ -31,6 +33,7 @@ public class AgentStatusAdapter extends RecyclerView.Adapter<AgentStatusAdapter.
         idList = ids;
         userId = currentUser;
         instance = fragment;
+        finishedList = areFinished;
 
     }
 
@@ -39,9 +42,10 @@ public class AgentStatusAdapter extends RecyclerView.Adapter<AgentStatusAdapter.
 
     }
 
-    public void setDataset(ArrayList<String> names, ArrayList<String> ids) {
+    public void setDataset(ArrayList<String> names, ArrayList<String> ids, ArrayList<Boolean> areFinished) {
         agentsList = names;
         idList = ids;
+        finishedList = areFinished;
         notifyDataSetChanged();
     }
 
@@ -60,18 +64,18 @@ public class AgentStatusAdapter extends RecyclerView.Adapter<AgentStatusAdapter.
         if(idList.get(position).equals(ownerId)) {
             holder.getIcon().setVisibility(View.VISIBLE);
         }
+        if(finishedList.get(position).equals(Boolean.TRUE)) {
+            holder.getSubText().setText("Saved Allocation");
+        }
         if(userId.equals(ownerId) && !idList.get(position).equals(userId)) {
             holder.getButton().setVisibility(View.VISIBLE);
 
-            holder.getButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            holder.getButton().setOnClickListener(view -> {
 //                    idList.remove(holder.getAdapterPosition());
 //                    agentsList.remove(holder.getAdapterPosition());
 //                    notifyItemRemoved(holder.getAdapterPosition());
-                    instance.onUserRemoved(idList.get(holder.getAdapterPosition()));
+                instance.onUserRemoved(idList.get(holder.getAdapterPosition()));
 
-                }
             });
         }
 

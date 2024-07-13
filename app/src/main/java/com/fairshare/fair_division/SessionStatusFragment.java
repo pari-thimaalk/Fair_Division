@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -72,26 +73,38 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
                         if(value != null && value.exists()) {
                             ArrayList<String> names = new ArrayList<>();
                             ArrayList<String> ids = new ArrayList<>();
+                            ArrayList<Boolean> areFinished = new ArrayList<>();
                             HashMap<String, String> users = (HashMap<String, String>) value.get("users");
+                            HashMap<String, String> finished = (HashMap<String, String>) value.get("finished");
 
                             assert users != null;
-                            inSessionText.setText("In Session (" + users.size() + "):");
+                            assert finished != null;
+
+                            inSessionText.setText("In Session (" + (users.size() + finished.size()) + "):");
+
+                            for(String key : finished.keySet()) {
+                                ids.add(key);
+                                String name = finished.get(key);
+                                names.add(name);
+                                areFinished.add(true);
+                            }
 
 
                             for (String key : users.keySet()) {
                                 ids.add(key);
                                 String name = users.get(key);
                                 names.add(name);
+                                areFinished.add(false);
                             }
 
                             if(agentsList.getAdapter() == null) {
                                 agentsList.setAdapter(
                                         new AgentStatusAdapter(
-                                        names, ids, (String) value.get("owner"),
+                                        names, ids, areFinished, (String) value.get("owner"),
                                         requireActivity().getIntent().getStringExtra("userId"),
                                 SessionStatusFragment.this));
                             } else {
-                                ((AgentStatusAdapter)agentsList.getAdapter()).setDataset(names, ids);
+                                ((AgentStatusAdapter)agentsList.getAdapter()).setDataset(names, ids, areFinished);
                             }
 
                         }
@@ -103,8 +116,10 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
 
     @Override
     public void onUserRemoved(String id) {
-        firestore.collection("sessions")
-                .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
-                .update("users." + id, FieldValue.delete());
+        DocumentReference ref = firestore.collection("sessions").document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")));
+        ref.update("users." + id, FieldValue.delete());
+        ref.update("finished." + id, FieldValue.delete());
+        ref.update("allocation." + id, FieldValue.delete());
+
     }
 }

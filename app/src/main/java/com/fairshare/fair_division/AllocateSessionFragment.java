@@ -13,22 +13,27 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class AllocateSessionFragment extends Fragment implements ChoicesAdapter.AllocationChangedListener {
@@ -36,6 +41,8 @@ public class AllocateSessionFragment extends Fragment implements ChoicesAdapter.
     private RecyclerView itemsList;
     private TextView creditsLeft;
     private FloatingActionButton uploadButton;
+    private SharedPreferences preferences;
+    private HashMap<String, Integer> oldAllocation = new HashMap<>();
 
     public AllocateSessionFragment() {
         // Required empty public constructor
@@ -60,11 +67,41 @@ public class AllocateSessionFragment extends Fragment implements ChoicesAdapter.
 
 
         itemsList = view.findViewById(R.id.items_list);
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         uploadButton = view.findViewById(R.id.upload_allocation_button);
         creditsLeft = view.findViewById(R.id.credits_left);
         itemsList.setAdapter(new ChoicesAdapter(requireActivity().getIntent().getStringArrayListExtra("items"), creditsLeft, this));
         itemsList.setLayoutManager(new LinearLayoutManager(requireContext()));
         firestore = FirebaseFirestore.getInstance();
+
+        uploadButton.setOnClickListener(view1 -> {
+                    ChoicesAdapter adapter = (ChoicesAdapter) itemsList.getAdapter();
+                    assert adapter != null;
+                    int goods_count = adapter.getItemCount();
+                    HashMap<String, Integer> alloc = new HashMap<>();
+                    for (int i = 0; i < goods_count; i++) {
+                        ChoicesAdapter.ViewHolder holder = (ChoicesAdapter.ViewHolder) itemsList.findViewHolderForAdapterPosition(i);
+                        assert holder != null;
+                        EditText input = holder.itemView.findViewById(R.id.itemq);
+                        TextView name = holder.itemView.findViewById((R.id.goodName));
+                        alloc.put(name.getText().toString(), Integer.parseInt(input.getText().toString()));
+                    }
+                    oldAllocation = alloc;
+
+                    DocumentReference ref = firestore.collection("sessions").document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")));
+                    ref.update("allocation." + preferences.getString("id", null), alloc)
+                            .addOnSuccessListener(unused -> {
+                                Snackbar.make(uploadButton, "Allocation successful!", BaseTransientBottomBar.LENGTH_SHORT).show();
+                                uploadButton.setVisibility(View.GONE);
+                            });
+
+                    ref.update("finished." + preferences.getString("id", null), preferences.getString("name", null))
+                            .addOnFailureListener(e -> Log.e("Error in finished update", "here", e));
+                    ref.update("users." + preferences.getString("id", null), FieldValue.delete())
+                            .addOnFailureListener(e -> Log.e("Error in user update", "here", e));
+
+
+                });
 
 
 //        firestore.collection("sessions")
@@ -112,7 +149,21 @@ public class AllocateSessionFragment extends Fragment implements ChoicesAdapter.
 
     @Override
     public void onAllocationDone() {
-        uploadButton.setVisibility(View.VISIBLE);
+        ChoicesAdapter adapter = (ChoicesAdapter) itemsList.getAdapter();
+        assert adapter != null;
+        int goods_count = adapter.getItemCount();
+        HashMap<String, Integer> alloc = new HashMap<>();
+        for (int i = 0; i < goods_count; i++) {
+            ChoicesAdapter.ViewHolder holder = (ChoicesAdapter.ViewHolder) itemsList.findViewHolderForAdapterPosition(i);
+            assert holder != null;
+            EditText input = holder.itemView.findViewById(R.id.itemq);
+            TextView name = holder.itemView.findViewById((R.id.goodName));
+            alloc.put(name.getText().toString(), Integer.parseInt(input.getText().toString()));
+        }
+        if(!alloc.equals(oldAllocation)) {
+            uploadButton.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override

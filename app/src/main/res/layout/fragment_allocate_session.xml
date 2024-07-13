@@ -6,25 +6,37 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/credits_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="20sp"
+        android:layout_margin="10sp"
+        android:text="Credits Left: 100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
         android:id="@+id/instructionstext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_margin="10sp"
         android:text="Input values for each item"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.057" />
+        app:layout_constraintTop_toBottomOf="@id/credits_left"
+        />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="520dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
         app:layout_constraintTop_toBottomOf="@+id/instructionstext"
-        app:layout_constraintVertical_bias="0.146"
-        tools:layout_editor_absoluteX="20dp">
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/items_list"
@@ -36,18 +48,7 @@
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/credits_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="@color/white"
-        android:text="Credits Left: 100"
-        app:layout_constraintBottom_toTopOf="@+id/instructionstext"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"

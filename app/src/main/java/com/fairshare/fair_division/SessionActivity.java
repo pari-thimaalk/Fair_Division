@@ -50,8 +50,11 @@ public class SessionActivity extends AppCompatActivity {
         firestore.collection("sessions").document(getIntent().getStringExtra("sessionCode"))
                 .addSnapshotListener((value, error) -> {
                     HashMap<String, Object> users = (HashMap<String, Object>) value.get("users");
+                    HashMap<String, Object> finished = (HashMap<String, Object>) value.get("finished");
                     assert users != null;
-                    if(!users.containsKey(getIntent().getStringExtra("userId"))) {
+                    assert finished!= null;
+                    if(!users.containsKey(getIntent().getStringExtra("userId")) &&
+                            !finished.containsKey(getIntent().getStringExtra("userId"))) {
 
                         setResult(RESULT_CANCELED);
                         finish();

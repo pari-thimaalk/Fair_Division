@@ -95,7 +95,7 @@ public class AddItemsActivity extends AppCompatActivity {
             data.put("items", items);
             data.put("owner", id);
             data.put("type", position);
-            data.put("finished", new ArrayList<>());
+            data.put("finished", new HashMap<>());
 
 
             firestore.collection("sessions").add(data)
