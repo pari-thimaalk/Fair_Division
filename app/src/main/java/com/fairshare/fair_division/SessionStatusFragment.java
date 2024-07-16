@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -35,6 +36,7 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
     private FirebaseFirestore firestore;
     private RecyclerView agentsList;
     private TextView inSessionText, finishedAllocationText;
+    private Button calculateButton;
 
 
 
@@ -64,6 +66,14 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
         agentsList = view.findViewById(R.id.agentsList);
         agentsList.setLayoutManager(new LinearLayoutManager(requireContext()));
         inSessionText = view.findViewById(R.id.in_session_text);
+        calculateButton = view.findViewById(R.id.calculate_allocation_button);
+
+        calculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: Handle dealing with user data on done
+            }
+        });
 
         firestore.collection("sessions")
                 .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
@@ -81,6 +91,9 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
                             assert finished != null;
 
                             inSessionText.setText("In Session (" + (users.size() + finished.size()) + "):");
+                            if(finished.size() >= 2 && users.isEmpty()) {
+                                calculateButton.setVisibility(View.VISIBLE);
+                            }
 
                             for(String key : finished.keySet()) {
                                 ids.add(key);
