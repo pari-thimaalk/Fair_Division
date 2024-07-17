@@ -52,26 +52,32 @@ public class HomeChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.home_choice);
         firestore = FirebaseFirestore.getInstance();
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult o) {
-                        if(o.getResultCode() == 0) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeChoiceActivity.this);
+                o -> {
+                    if(o.getResultCode() == RESULT_CANCELED) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(HomeChoiceActivity.this);
 // Add the buttons.
-                            builder.setTitle("User Removed")
-                                    .setMessage("You have been kicked from the session.")
-                                    .setIcon(R.drawable.person_remove_24dp_000000)
-                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        builder.setTitle("User Removed")
+                                .setMessage("You have been kicked from the session.")
+                                .setIcon(R.drawable.person_remove_24dp_000000)
+                                .setPositiveButton("Ok", (dialog, id) -> {
+                                    // User taps OK button.
 
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            // User taps OK button.
+                                });
 
-                                        }
-                                    });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    } else if(o.getResultCode() == RESULT_OK) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(HomeChoiceActivity.this);
+// Add the buttons.
+                        builder.setTitle("Session Exited")
+                                .setMessage("You have left the session successfully.")
+                                .setIcon(R.drawable.person_remove_24dp_000000)
+                                .setPositiveButton("Ok", (dialog, id) -> {
 
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                        }
+                                });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
 
                     }
                 });
@@ -96,7 +102,6 @@ public class HomeChoiceActivity extends AppCompatActivity {
                             sharedPreferences.edit().putString("id", newId).apply();
                             id = newId;
                             name = codeInput.getText().toString();
-
 
                             sharedPreferences.edit().putString("name", name).apply();
 
@@ -146,7 +151,6 @@ public class HomeChoiceActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         if(documentSnapshot.exists()) {
-                                            //TODO: Add user to session
                                             firestore.collection("sessions").document(codeInput.getText().toString())
                                                     .update("users." + id, name)
                                                     .addOnSuccessListener(unused -> {

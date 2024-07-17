@@ -11,15 +11,12 @@
         android:layout_height="wrap_content"
         android:theme="@style/Theme.Fair_Division.AppBarOverlay">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minHeight="?actionBarSize"
-            android:padding="@dimen/appbar_padding"
-            android:text="Manage Session"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Manage Session"
+            android:id="@+id/session_toolbar"
+            />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"

@@ -25,6 +25,7 @@
         <activity
             android:name=".SessionActivity"
             android:exported="false"
+            android:parentActivityName=".HomeChoiceActivity"
             android:label="@string/title_activity_session"
             />
         <activity
