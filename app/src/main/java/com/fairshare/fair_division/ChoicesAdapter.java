@@ -115,7 +115,7 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return goodsList.size();
+        return goodsList != null ? goodsList.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

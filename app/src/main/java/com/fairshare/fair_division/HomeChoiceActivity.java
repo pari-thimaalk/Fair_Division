@@ -32,6 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -154,6 +155,8 @@ public class HomeChoiceActivity extends AppCompatActivity {
                                                         intent.putExtra("sessionCode", codeInput.getText().toString());
                                                         intent.putExtra("isOwner", false);
                                                         intent.putExtra("userId", id);
+                                                        intent.putStringArrayListExtra("items", (ArrayList<String>) documentSnapshot.get("items"));
+                                                        intent.putExtra("type", (Integer) documentSnapshot.get("type"));
                                                         launcher.launch(intent);
                                                     });
 

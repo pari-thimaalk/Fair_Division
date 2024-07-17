@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AddPeopleActivity"
+    tools:context=".SessionActivity"
     >
 
     <LinearLayout
@@ -61,6 +61,7 @@
         android:id="@+id/calculate_allocation_button"
         android:textAllCaps="false"
         android:text="Calculate Allocation"
+        android:drawableStart="@drawable/calculate_24dp_000000"
         android:layout_gravity="end|bottom"
         android:layout_margin="30sp"
         android:backgroundTint="@color/brightblue"

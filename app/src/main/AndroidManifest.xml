@@ -26,10 +26,7 @@
             android:name=".SessionActivity"
             android:exported="false"
             android:label="@string/title_activity_session"
-            android:theme="@style/Theme.Fair_Division.NoActionBar" />
-        <activity
-            android:name=".NewSessionActivity"
-            android:exported="false" />
+            />
         <activity
             android:name=".AllocationActivity"
             android:exported="false"

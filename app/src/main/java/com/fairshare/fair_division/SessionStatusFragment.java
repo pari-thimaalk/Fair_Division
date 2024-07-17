@@ -10,6 +10,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,9 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
 
     private FirebaseFirestore firestore;
     private RecyclerView agentsList;
-    private TextView inSessionText, finishedAllocationText;
+    private TextView inSessionText;
     private Button calculateButton;
-
+    private HashMap<String, Object> allocations;
 
 
     public SessionStatusFragment() {
@@ -68,61 +69,63 @@ public class SessionStatusFragment extends Fragment implements AgentStatusAdapte
         inSessionText = view.findViewById(R.id.in_session_text);
         calculateButton = view.findViewById(R.id.calculate_allocation_button);
 
-        calculateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: Handle dealing with user data on done
-            }
+        calculateButton.setOnClickListener(v -> {
+            //TODO: Handle dealing with user data on done
+            Log.d("Allocations", allocations.toString());
         });
 
         firestore.collection("sessions")
                 .document(Objects.requireNonNull(requireActivity().getIntent().getStringExtra("sessionCode")))
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(value != null && value.exists()) {
-                            ArrayList<String> names = new ArrayList<>();
-                            ArrayList<String> ids = new ArrayList<>();
-                            ArrayList<Boolean> areFinished = new ArrayList<>();
-                            HashMap<String, String> users = (HashMap<String, String>) value.get("users");
-                            HashMap<String, String> finished = (HashMap<String, String>) value.get("finished");
+                .addSnapshotListener((value, error) -> {
+                    if(value != null && value.exists()) {
+                        ArrayList<String> names = new ArrayList<>();
+                        ArrayList<String> ids = new ArrayList<>();
+                        ArrayList<Boolean> areFinished = new ArrayList<>();
+                        HashMap<String, String> users = (HashMap<String, String>) value.get("users");
+                        HashMap<String, String> finished = (HashMap<String, String>) value.get("finished");
 
-                            assert users != null;
-                            assert finished != null;
+                        assert users != null;
+                        assert finished != null;
 
-                            inSessionText.setText("In Session (" + (users.size() + finished.size()) + "):");
-                            if(finished.size() >= 2 && users.isEmpty()) {
+                        inSessionText.setText("In Session (" + (users.size() + finished.size()) + "):");
+
+                        if(isAdded()) {
+                            if(finished.size() >= 2 && users.isEmpty() && requireActivity().getIntent().getBooleanExtra("isOwner", false)) {
                                 calculateButton.setVisibility(View.VISIBLE);
-                            }
-
-                            for(String key : finished.keySet()) {
-                                ids.add(key);
-                                String name = finished.get(key);
-                                names.add(name);
-                                areFinished.add(true);
-                            }
-
-
-                            for (String key : users.keySet()) {
-                                ids.add(key);
-                                String name = users.get(key);
-                                names.add(name);
-                                areFinished.add(false);
-                            }
-
-                            if(agentsList.getAdapter() == null) {
-                                agentsList.setAdapter(
-                                        new AgentStatusAdapter(
-                                        names, ids, areFinished, (String) value.get("owner"),
-                                        requireActivity().getIntent().getStringExtra("userId"),
-                                SessionStatusFragment.this));
+                                allocations = (HashMap<String, Object>) value.get("allocation");
                             } else {
-                                ((AgentStatusAdapter)agentsList.getAdapter()).setDataset(names, ids, areFinished);
+                                calculateButton.setVisibility(View.GONE);
                             }
+                        }
 
+
+                        for(String key : finished.keySet()) {
+                            ids.add(key);
+                            String name = finished.get(key);
+                            names.add(name);
+                            areFinished.add(true);
+                        }
+
+
+                        for (String key : users.keySet()) {
+                            ids.add(key);
+                            String name = users.get(key);
+                            names.add(name);
+                            areFinished.add(false);
+                        }
+
+                        if(agentsList.getAdapter() == null) {
+                            agentsList.setAdapter(
+                                    new AgentStatusAdapter(
+                                    names, ids, areFinished, (String) value.get("owner"),
+                                    requireActivity().getIntent().getStringExtra("userId"),
+                            SessionStatusFragment.this));
+                        } else {
+                            ((AgentStatusAdapter)agentsList.getAdapter()).setDataset(names, ids, areFinished);
                         }
 
                     }
+
                 });
 
     }

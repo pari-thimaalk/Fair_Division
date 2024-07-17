@@ -11,7 +11,7 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="session_status_text">Status</string>
     <string name="session_details_text">Details</string>
-    <string name="allocate_items_text">Allocation</string>
+    <string name="allocate_items_text">Valuation</string>
     <string name="goods_info">When allocating goods, remember to give <b>more</b> credits to goods you value more! Currently, our algorithm meets fairness requirements for an <b>unlimited</b> number of agents and goods.</string>
     <string name="chores_info">When allocating chores, remember to give <b>fewer</b> credits to chores you find easier and are more willing to do! Currently, our algorithm guarantees fairness for up to <b>3 agents</b> with an unlimited number of chores. While we still provide allocations for greater than 3 agents, certain fairness requirements will <b>not</b> be met.</string>
 

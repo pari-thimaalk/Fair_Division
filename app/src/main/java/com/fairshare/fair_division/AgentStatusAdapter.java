@@ -63,6 +63,8 @@ public class AgentStatusAdapter extends RecyclerView.Adapter<AgentStatusAdapter.
         holder.getMainText().setText(agentsList.get(position));
         if(idList.get(position).equals(ownerId)) {
             holder.getIcon().setVisibility(View.VISIBLE);
+        } else {
+            holder.getIcon().setVisibility(View.GONE);
         }
         if(finishedList.get(position).equals(Boolean.TRUE)) {
             holder.getSubText().setText("Saved Allocation");
@@ -77,6 +79,8 @@ public class AgentStatusAdapter extends RecyclerView.Adapter<AgentStatusAdapter.
                 instance.onUserRemoved(idList.get(holder.getAdapterPosition()));
 
             });
+        } else {
+            holder.getButton().setVisibility(View.GONE);
         }
 
     }
