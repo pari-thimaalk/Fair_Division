@@ -97,10 +97,12 @@ public class ChoicesAdapter extends RecyclerView.Adapter<ChoicesAdapter.ViewHold
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(credits_remaining != 0) {
-                    fragment.onAllocationNotDone();
-                } else {
-                    fragment.onAllocationDone();
+                if(fragment != null) {
+                    if(credits_remaining != 0) {
+                        fragment.onAllocationNotDone();
+                    } else {
+                        fragment.onAllocationDone();
+                    }
                 }
 
             }
